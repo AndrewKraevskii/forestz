@@ -36,6 +36,7 @@ pub fn printZigFiles(gpa: std.mem.Allocator, dir: std.fs.Dir, config: Config) !v
 
     std.debug.print("total lines {d}\n", .{lines});
 }
+
 const StringMap = std.StringArrayHashMapUnmanaged;
 
 const FileInfo = struct {

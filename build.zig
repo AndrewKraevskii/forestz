@@ -13,7 +13,7 @@ pub fn build(b: *std.Build) void {
     });
 
     const exe = b.addExecutable(.{
-        .name = "treez",
+        .name = "forestz",
         .root_module = exe_mod,
         .use_llvm = use_llvm,
         .use_lld = use_llvm,

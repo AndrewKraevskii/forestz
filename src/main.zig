@@ -13,15 +13,6 @@ pub fn main() !void {
 
     const args = try std.process.argsAlloc(arena);
 
-    // const path = switch (args.len) {
-    //     0 => @panic("no program path given"),
-    //     1 => ".",
-    //     2 => args[1],
-    //     // else => |argc| {
-    //     //     std.debug.print("Got {d} args but expected 1..2\n", .{argc});
-    //     //     std.process.exit(0);
-    //     // },
-    // };
     if (args.len == 0) {
         @panic("no program path given");
     }
