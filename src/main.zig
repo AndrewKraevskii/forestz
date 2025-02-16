@@ -33,5 +33,5 @@ pub fn main() !void {
     var dir = try std.fs.cwd().openDir(path, .{ .iterate = true });
     defer dir.close();
 
-    try tree.printZigFiles(gpa, dir, config);
+    try tree.printZigFiles(gpa, dir);
 }

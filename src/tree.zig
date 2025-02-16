@@ -1,4 +1,5 @@
 const std = @import("std");
+const Allocator = std.mem.Allocator;
 
 pub const Config = struct {
     print_files: bool,
@@ -8,117 +9,118 @@ pub const Config = struct {
     },
 };
 
-pub fn printZigFiles(gpa: std.mem.Allocator, dir: std.fs.Dir, config: Config) !void {
-    var visited_files: StringMap(FileInfo) = .empty;
-    defer visited_files.deinit(gpa);
-
-    var visited_projects: StringMap(ProjectInfo) = .empty;
-    defer visited_projects.deinit(gpa);
-
+pub fn printZigFiles(gpa: Allocator, dir: std.fs.Dir) !void {
     var arena = std.heap.ArenaAllocator.init(gpa);
     defer arena.deinit();
 
+    const tree = try getDependencyTree(arena.allocator(), gpa, dir);
     const out = std.io.getStdOut().writer();
-    var bw = std.io.bufferedWriter(out);
-    std.debug.print("root\n", .{});
 
-    var state: State = .{
-        .gpa = gpa,
-        .tree_arena = arena.allocator(),
-        .visited_projects = &visited_projects,
-        .visited_files = &visited_files,
-        .writer = bw.writer().any(),
-        .config = config,
-    };
-
-    const lines = try state.innerPrintZigFiles(dir, 0);
-    bw.flush() catch {};
-
-    std.debug.print("total lines {d}\n", .{lines});
+    try tree.root.dump(out, 0);
 }
 
-const StringMap = std.StringArrayHashMapUnmanaged;
+pub fn getDependencyTree(
+    arena: Allocator,
+    gpa: Allocator,
+    dir: std.fs.Dir,
+) !Tree {
+    var state: State = .{
+        .cache_path = try resolveGlobalCacheDir(arena),
+        .gpa = gpa,
+        .tree_arena = arena,
+        .visited_projects = .empty,
+    };
+    defer {
+        state.visited_projects.deinit(gpa);
+    }
 
-const FileInfo = struct {
-    lines: u32,
-};
+    return .{ .root = try state.innerPrintZigFiles(dir, 0) };
+}
 
-const ProjectInfo = struct {
-    files: u32,
-    lines: u32,
+const Tree = struct {
+    root: Dependency,
+
+    const Dependency = struct {
+        absolute_path: []const u8,
+        /// Name is null if build.zig.zon is absent
+        name: ?[]const u8,
+        children: []Child,
+
+        const Child = struct {
+            name: []const u8,
+            dep: Dependency,
+
+            pub fn dump(c: Child, writer: anytype, indent: u16) @TypeOf(writer).Error!void {
+                try printIndented(writer, "{s}\n", .{c.name}, indent);
+                for (c.dep.children) |child| {
+                    try child.dump(writer, indent + 1);
+                }
+            }
+        };
+
+        pub fn displayName(d: Dependency) []const u8 {
+            return if (d.name) |name| name else std.fs.path.basename(d.absolute_path);
+        }
+
+        pub fn dump(t: Dependency, writer: anytype, indent: u16) @TypeOf(writer).Error!void {
+            try printIndented(writer, "{s}\n", .{t.displayName()}, indent);
+            for (t.children) |child| {
+                try child.dump(writer, indent + 1);
+            }
+        }
+    };
 };
 
 const State = struct {
-    gpa: std.mem.Allocator,
-    tree_arena: std.mem.Allocator,
-    visited_files: *StringMap(FileInfo),
-    visited_projects: *StringMap(ProjectInfo),
-    writer: std.io.AnyWriter,
-    config: Config,
+    gpa: Allocator,
+    tree_arena: Allocator,
+    visited_projects: std.StringHashMapUnmanaged(void),
+    cache_path: []const u8,
 
     fn innerPrintZigFiles(
         state: *State,
         dir: std.fs.Dir,
         depth: u16,
-    ) !u64 {
-        var iter = try dir.walk(state.gpa);
-        defer iter.deinit();
-
+    ) !Tree.Dependency {
         var arena = std.heap.ArenaAllocator.init(state.gpa);
         defer arena.deinit();
+        const full_path = try dir.realpathAlloc(state.tree_arena, ".");
+        const result = openBuildZigZon(arena.allocator(), dir, "build.zig.zon") catch |e| switch (e) {
+            error.FileNotFound => return .{
+                .absolute_path = full_path,
+                .name = null,
+                .children = &.{},
+            },
+            else => return e,
+        };
+        var deps_array: std.ArrayListUnmanaged(Tree.Dependency.Child) = try .initCapacity(state.tree_arena, result.dependencies.values().len);
+        for (result.dependencies.keys(), result.dependencies.values()) |key, value| {
+            const gop = try state.visited_projects.getOrPut(state.gpa, try state.tree_arena.dupe(u8, key));
+            if (gop.found_existing) continue;
 
-        var count: u64 = 0;
+            const path = if (value.path.len != 0) value.path else path: {
+                break :path try std.fs.path.join(arena.allocator(), &.{ state.cache_path, "p", value.hash });
+            };
 
-        entry: while (try iter.next()) |entry| {
-            if (entry.kind != .file) continue;
+            var dep_dir = dir.openDir(path, .{ .iterate = true }) catch |e| switch (e) {
+                error.FileNotFound => continue,
+                else => |other| return other,
+            };
+            defer dep_dir.close();
 
-            file: {
-                if (!std.mem.eql(u8, std.fs.path.extension(entry.path), ".zig")) break :file;
-
-                for (state.config.skip_directories) |dir_name| {
-                    if (std.mem.containsAtLeast(u8, entry.path, 1, dir_name)) continue :entry;
-                }
-                const gop = try state.visited_files.getOrPut(state.gpa, try state.tree_arena.dupe(u8, entry.path));
-                if (gop.found_existing) continue;
-
-                const lines = try countLines(arena.allocator(), dir, entry.path);
-                count += lines;
-                if (state.config.print_files) {
-                    try printIndented(state.writer, "{s} - {d}\n", .{ entry.path, lines }, depth);
-                }
-                continue;
-            }
-            if (std.mem.eql(u8, entry.path, "build.zig.zon")) {
-                const result = try openBuildZigZon(arena.allocator(), dir, entry.path);
-
-                for (result.dependencies.keys(), result.dependencies.values()) |key, value| {
-                    const gop = try state.visited_projects.getOrPut(state.gpa, try state.tree_arena.dupe(u8, key));
-                    if (gop.found_existing) continue;
-
-                    const path =
-                        if (value.path.len != 0) value.path else path: {
-                        const cache_path = try resolveGlobalCacheDir(arena.allocator());
-                        break :path try std.fs.path.join(arena.allocator(), &.{ cache_path, "p", value.hash });
-                    };
-
-                    try printIndented(state.writer, "{s} - {s}\n", .{ key, path }, depth + 1);
-                    var dep_dir = dir.openDir(path, .{ .iterate = true }) catch |e| switch (e) {
-                        error.FileNotFound => continue,
-                        else => |other| return other,
-                    };
-                    defer dep_dir.close();
-
-                    count += try state.innerPrintZigFiles(
-                        dep_dir,
-                        depth + 1,
-                    );
-                }
-            }
-
-            _ = arena.reset(.retain_capacity);
+            deps_array.appendAssumeCapacity(.{
+                .name = try state.tree_arena.dupe(u8, key),
+                .dep = try state.innerPrintZigFiles(
+                    dep_dir,
+                    depth + 1,
+                ),
+            });
         }
-
-        return count;
+        return .{
+            .absolute_path = full_path,
+            .name = if (result.name) |name| try state.tree_arena.dupe(u8, name) else null,
+            .children = try deps_array.toOwnedSlice(state.tree_arena),
+        };
     }
 };
 
@@ -127,7 +129,7 @@ fn printIndented(writer: anytype, comptime fmt: []const u8, args: anytype, inden
     try writer.print(fmt, args);
 }
 
-fn countLines(arena: std.mem.Allocator, dir: std.fs.Dir, path: []const u8) !u64 {
+fn countLines(arena: Allocator, dir: std.fs.Dir, path: []const u8) !u64 {
     const content = try dir.readFileAlloc(arena, path, 1000 * 1000 * 1000);
 
     var iter = std.mem.tokenizeAny(u8, content, "\n\r");
@@ -156,7 +158,7 @@ const BuildZigZon = struct {
     };
 };
 
-fn openBuildZigZon(arena: std.mem.Allocator, dir: std.fs.Dir, path: []const u8) !BuildZigZon {
+fn openBuildZigZon(arena: Allocator, dir: std.fs.Dir, path: []const u8) !BuildZigZon {
     const content = try dir.readFileAllocOptions(arena, path, 1000 * 1000 * 1000, null, 1, 0);
 
     const ast = try std.zig.Ast.parse(arena, content, .zon);
@@ -204,7 +206,7 @@ const builtin = @import("builtin");
 const fs = std.fs;
 
 /// copied from src/introspect.zig:82
-fn resolveGlobalCacheDir(allocator: std.mem.Allocator) ![]u8 {
+fn resolveGlobalCacheDir(allocator: Allocator) ![]u8 {
     if (builtin.os.tag == .wasi)
         @compileError("on WASI the global cache dir must be resolved with preopens");
 
