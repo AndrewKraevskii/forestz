@@ -24,7 +24,7 @@ pub const Stats = struct {
 };
 
 pub fn statsFromSlice(slice: []const u8) Stats {
-    // we use \n since extra \r will be droped in trimming.
+    // we use \n since extra \r will be dropped in trimming.
     var iter = std.mem.splitScalar(u8, slice, '\n');
     var code: u64 = 0;
     var lines: u64 = 0;
