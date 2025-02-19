@@ -1,5 +1,6 @@
 const std = @import("std");
 const Allocator = std.mem.Allocator;
+const resolveGlobalCacheDir = @import("stdx.zig").resolveGlobalCacheDir;
 
 pub const Config = struct {
     print_files: bool,
@@ -16,7 +17,7 @@ pub fn printZigFiles(gpa: Allocator, dir: std.fs.Dir) !void {
     const tree = try getDependencyTree(arena.allocator(), gpa, dir);
     const out = std.io.getStdOut().writer();
 
-    try tree.root.dump(out, 0);
+    try tree.dump(out);
 }
 
 pub fn getDependencyTree(
@@ -34,7 +35,9 @@ pub fn getDependencyTree(
         state.visited_projects.deinit(gpa);
     }
 
-    return .{ .root = try state.innerPrintZigFiles(dir, 0) };
+    return .{
+        .root = try state.innerPrintZigFiles(dir, 0),
+    };
 }
 
 const Tree = struct {
@@ -61,20 +64,19 @@ const Tree = struct {
         pub fn displayName(d: Dependency) []const u8 {
             return if (d.name) |name| name else std.fs.path.basename(d.absolute_path);
         }
-
-        pub fn dump(t: Dependency, writer: anytype, indent: u16) @TypeOf(writer).Error!void {
-            try printIndented(writer, "{s}\n", .{t.displayName()}, indent);
-            for (t.children) |child| {
-                try child.dump(writer, indent + 1);
-            }
-        }
     };
+    pub fn dump(t: Tree, writer: anytype) @TypeOf(writer).Error!void {
+        try printIndented(writer, "{s}\n", .{t.root.displayName()}, 0);
+        for (t.root.children) |child| {
+            try child.dump(writer, 1);
+        }
+    }
 };
 
 const State = struct {
     gpa: Allocator,
     tree_arena: Allocator,
-    visited_projects: std.StringHashMapUnmanaged(void),
+    visited_projects: std.StringArrayHashMapUnmanaged(void),
     cache_path: []const u8,
 
     fn innerPrintZigFiles(
@@ -85,7 +87,7 @@ const State = struct {
         var arena = std.heap.ArenaAllocator.init(state.gpa);
         defer arena.deinit();
         const full_path = try dir.realpathAlloc(state.tree_arena, ".");
-        const result = openBuildZigZon(arena.allocator(), dir, "build.zig.zon") catch |e| switch (e) {
+        const result = readBuildZigZon(arena.allocator(), dir, "build.zig.zon") catch |e| switch (e) {
             error.FileNotFound => return .{
                 .absolute_path = full_path,
                 .name = null,
@@ -129,22 +131,6 @@ fn printIndented(writer: anytype, comptime fmt: []const u8, args: anytype, inden
     try writer.print(fmt, args);
 }
 
-fn countLines(arena: Allocator, dir: std.fs.Dir, path: []const u8) !u64 {
-    const content = try dir.readFileAlloc(arena, path, 1000 * 1000 * 1000);
-
-    var iter = std.mem.tokenizeAny(u8, content, "\n\r");
-    var lines: u64 = 0;
-    while (iter.next()) |line| {
-        const trimmed = std.mem.trimLeft(u8, line, &std.ascii.whitespace);
-
-        if (std.mem.startsWith(u8, trimmed, "//")) continue; // this is comment
-
-        lines += 1;
-    }
-
-    return lines;
-}
-
 const BuildZigZon = struct {
     name: ?[]const u8 = null,
     version: ?[]const u8 = null,
@@ -158,7 +144,7 @@ const BuildZigZon = struct {
     };
 };
 
-fn openBuildZigZon(arena: Allocator, dir: std.fs.Dir, path: []const u8) !BuildZigZon {
+fn readBuildZigZon(arena: Allocator, dir: std.fs.Dir, path: []const u8) !BuildZigZon {
     const content = try dir.readFileAllocOptions(arena, path, 1000 * 1000 * 1000, null, 1, 0);
 
     const ast = try std.zig.Ast.parse(arena, content, .zon);
@@ -200,30 +186,4 @@ fn openBuildZigZon(arena: Allocator, dir: std.fs.Dir, path: []const u8) !BuildZi
     }
 
     return result;
-}
-
-const builtin = @import("builtin");
-const fs = std.fs;
-
-/// copied from src/introspect.zig:82
-fn resolveGlobalCacheDir(allocator: Allocator) ![]u8 {
-    if (builtin.os.tag == .wasi)
-        @compileError("on WASI the global cache dir must be resolved with preopens");
-
-    if (try std.zig.EnvVar.ZIG_GLOBAL_CACHE_DIR.get(allocator)) |value| return value;
-
-    const appname = "zig";
-
-    if (builtin.os.tag != .windows) {
-        if (std.zig.EnvVar.XDG_CACHE_HOME.getPosix()) |cache_root| {
-            if (cache_root.len > 0) {
-                return fs.path.join(allocator, &.{ cache_root, appname });
-            }
-        }
-        if (std.zig.EnvVar.HOME.getPosix()) |home| {
-            return fs.path.join(allocator, &.{ home, ".cache", appname });
-        }
-    }
-
-    return fs.getAppDataDir(allocator, appname);
 }
