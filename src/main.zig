@@ -53,10 +53,10 @@ pub fn main() !void {
     var dir = try std.fs.cwd().openDir(path orelse ".", .{ .iterate = true });
     defer dir.close();
 
-    const tree = try getDependencyTree(arena, gpa, dir);
-
     var real_path_buffer: [std.fs.max_path_bytes]u8 = undefined;
-    const real_path = try std.fs.cwd().realpath(".", &real_path_buffer);
+    const real_path = try std.fs.cwd().realpath(path orelse ".", &real_path_buffer);
+
+    const tree = try getDependencyTree(arena, gpa, dir);
 
     const total_stats = stats: {
         var bw = std.io.bufferedWriter(std.io.getStdOut().writer());
