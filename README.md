@@ -1,4 +1,4 @@
-# forestz
+# forestz 🌳🌲🌿⚡
 
 Util to count lines of code but with inclusion of dependencies.
 
