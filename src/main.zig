@@ -40,9 +40,11 @@ pub fn main() !void {
             print_files = true;
         } else if (std.mem.eql(u8, args[index], "--project-total")) {
             print_total_for_project = true;
+        } else if (std.mem.eql(u8, args[index], "--help")) {
+            printHelpAndExit();
         } else if (std.mem.startsWith(u8, args[index], "--")) {
             std.debug.print("Unexpected flag\n", .{});
-            return;
+            printHelpAndExit();
         } else {
             path = args[index];
         }
@@ -83,6 +85,23 @@ pub fn main() !void {
         total_stats.comments,
         total_stats.blanks,
     });
+}
+
+pub fn printHelpAndExit() noreturn {
+    std.debug.print(
+        \\forests path/to/project/root
+        \\
+        \\Flags:
+        \\ --project-total   print stats for each project
+        \\ --files           print induvidual file stats
+        \\ --sort=<query>    sort files when printing file by <query> where <query> is one of
+        \\                          name
+        \\                          code
+        \\                          lines
+        \\                          blanks
+        \\                          comments
+    , .{});
+    std.process.exit(0);
 }
 
 const PrintConfig = struct {
