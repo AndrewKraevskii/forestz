@@ -7,6 +7,7 @@ pub fn build(b: *std.Build) void {
     // NOTE: no `orelse` here so no arguments would use default settings
     const use_llvm = b.option(bool, "use-llvm", "use-llvm");
     const use_lld = b.option(bool, "use-lld", "use-lld");
+    const no_bin = b.option(bool, "no-bin", "no-bin") orelse false;
 
     const exe_mod = b.createModule(.{
         .root_source_file = b.path("src/main.zig"),
@@ -21,7 +22,11 @@ pub fn build(b: *std.Build) void {
         .use_lld = use_lld,
     });
 
-    b.installArtifact(exe);
+    if (no_bin) {
+        b.getInstallStep().dependOn(&exe.step);
+    } else {
+        b.installArtifact(exe);
+    }
 
     const run_cmd = b.addRunArtifact(exe);
 

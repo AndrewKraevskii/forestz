@@ -1,0 +1,2882 @@
+.{
+    .{
+        .id = "abap",
+        .description = .{
+            .name = "ABAP",
+            .line_comment = .{ "*", "\\\"" },
+            .extensions = .{"abap"},
+        },
+    },
+    .{
+        .id = "abnf",
+        .description = .{
+            .line_comment = .{";"},
+            .extensions = .{"abnf"},
+        },
+    },
+    .{
+        .id = "actionscript",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"as"},
+        },
+    },
+    .{
+        .id = "ada",
+        .description = .{
+            .line_comment = .{"--"},
+            .extensions = .{ "ada", "adb", "ads", "pad" },
+        },
+    },
+    .{
+        .id = "agda",
+        .description = .{
+            .nested = true,
+            .line_comment = .{"--"},
+            .multi_line_comments = .{.{ "{-", "-}" }},
+            .extensions = .{"agda"},
+        },
+    },
+    .{
+        .id = "alex",
+        .description = .{
+            .extensions = .{"x"},
+        },
+    },
+    .{
+        .id = "alloy",
+        .description = .{
+            .line_comment = .{ "--", "//" },
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .extensions = .{"als"},
+        },
+    },
+    .{
+        .id = "apl",
+        .description = .{
+            .name = "APL",
+            .line_comment = .{"⍝"},
+            .extensions = .{ "apl", "aplf", "apls" },
+            .quotes = .{.{ "'", "'" }},
+        },
+    },
+    .{
+        .id = "arduino",
+        .description = .{
+            .name = "Arduino C++",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"ino"},
+        },
+    },
+    .{
+        .id = "arturo",
+        .description = .{
+            .line_comment = .{";"},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"art"},
+        },
+    },
+    .{
+        .id = "asciidoc",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "////", "////" }},
+            .extensions = .{ "adoc", "asciidoc" },
+        },
+    },
+    .{
+        .id = "asn1",
+        .description = .{
+            .name = "ASN.1",
+            .line_comment = .{"--"},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .extensions = .{"asn1"},
+        },
+    },
+    .{
+        .id = "asp",
+        .description = .{
+            .name = "ASP",
+            .line_comment = .{ "'", "REM" },
+            .extensions = .{ "asa", "asp" },
+        },
+    },
+    .{
+        .id = "aspnet",
+        .description = .{
+            .name = "ASP.NET",
+            .multi_line_comments = .{ .{ "<!--", "-->" }, .{ "<%--", "-->" } },
+            .extensions = .{ "asax", "ascx", "asmx", "aspx", "master", "sitemap", "webinfo" },
+        },
+    },
+    .{
+        .id = "assembly",
+        .description = .{
+            .line_comment = .{";"},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{"asm"},
+        },
+    },
+    .{
+        .id = "assemblygas",
+        .description = .{
+            .name = "GNU Style Assembly",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"s"},
+        },
+    },
+    .{
+        .id = "astro",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{ .{ "/*", "*/" }, .{ "<!--", "-->" } },
+            .extensions = .{"astro"},
+        },
+    },
+    .{
+        .id = "ats",
+        .description = .{
+            .name = "ATS",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{ .{ "(*", "*)" }, .{ "/*", "*/" } },
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{ "dats", "hats", "sats", "atxt" },
+        },
+    },
+    .{
+        .id = "autoconf",
+        .description = .{
+            .line_comment = .{ "#", "dnl" },
+            .extensions = .{"in"},
+        },
+    },
+    .{
+        .id = "autoit",
+        .description = .{
+            .line_comment = .{";"},
+            .multi_line_comments = .{ .{ "#comments-start", "#comments-end" }, .{ "#cs", "#ce" } },
+            .extensions = .{"au3"},
+        },
+    },
+    .{
+        .id = "autohotkey",
+        .description = .{
+            .line_comment = .{";"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .extensions = .{"ahk"},
+        },
+    },
+    .{
+        .id = "automake",
+        .description = .{
+            .line_comment = .{"#"},
+            .extensions = .{"am"},
+        },
+    },
+    .{
+        .id = "awk",
+        .description = .{
+            .line_comment = .{"#"},
+            .shebangs = .{"#!/bin/awk -f"},
+            .extensions = .{"awk"},
+        },
+    },
+    .{
+        .id = "ballerina",
+        .description = .{
+            .line_comment = .{ "//", "#" },
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "`", "`" } },
+            .extensions = .{"bal"},
+        },
+    },
+    .{
+        .id = "bash",
+        .description = .{
+            .name = "BASH",
+            .shebangs = .{"#!/bin/bash"},
+            .line_comment = .{"#"},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .env = .{"bash"},
+            .extensions = .{"bash"},
+        },
+    },
+    .{
+        .id = "batch",
+        .description = .{
+            .line_comment = .{ "REM", " =" },
+            .extensions = .{ "bat", "btm", "cmd" },
+        },
+    },
+    .{
+        .id = "bazel",
+        .description = .{
+            .line_comment = .{"#"},
+            .doc_quotes = .{ .{ "\\\"\\\"\\\"", "\\\"\\\"\\\"" }, .{ "'''", "'''" } },
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{ "bzl", "bazel", "bzlmod" },
+            .filenames = .{ "build", "workspace", "module" },
+        },
+    },
+    .{
+        .id = "bean",
+        .description = .{
+            .line_comment = .{";"},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{ "bean", "beancount" },
+        },
+    },
+    .{
+        .id = "bicep",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{ .{ "'", "'" }, .{ "'''", "'''" } },
+            .extensions = .{ "bicep", "bicepparam" },
+        },
+    },
+    .{
+        .id = "bitbake",
+        .description = .{
+            .name = "Bitbake",
+            .line_comment = .{"#"},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{ "bb", "bbclass", "bbappend", "inc" },
+        },
+    },
+    .{
+        .id = "bqn",
+        .description = .{
+            .name = "BQN",
+            .line_comment = .{"#"},
+            .extensions = .{"bqn"},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+        },
+    },
+    .{
+        .id = "brightscript",
+        .description = .{
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .line_comment = .{ "'", "REM" },
+            .extensions = .{"brs"},
+        },
+    },
+    .{
+        .id = "c",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{ "c", "ec", "pgc" },
+        },
+    },
+    .{
+        .id = "cabal",
+        .description = .{
+            .nested = true,
+            .line_comment = .{"--"},
+            .multi_line_comments = .{.{ "{-", "-}" }},
+            .extensions = .{"cabal"},
+        },
+    },
+    .{
+        .id = "cairo",
+        .description = .{
+            .line_comment = .{"//"},
+            .extensions = .{"cairo"},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+        },
+    },
+    .{
+        .id = "cangjie",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .nested = true,
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "\\\"\\\"\\\"", "\\\"\\\"\\\"" } },
+            .verbatim_quotes = .{ .{ "#\\\"", "\\\"#" }, .{ "##\\\"", "\\\"##" }, .{ "###\\\"", "\\\"###" }, .{ "#'", "'#" }, .{ "##'", "'##" }, .{ "###'", "'###" } },
+            .extensions = .{"cj"},
+        },
+    },
+    .{
+        .id = "cassius",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{"cassius"},
+        },
+    },
+    .{
+        .id = "ceylon",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "\\\"\\\"\\\"", "\\\"\\\"\\\"" } },
+            .extensions = .{"ceylon"},
+        },
+    },
+    .{
+        .id = "chapel",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{"chpl"},
+        },
+    },
+    .{
+        .id = "cheader",
+        .description = .{
+            .name = "C Header",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"h"},
+        },
+    },
+    .{
+        .id = "cil",
+        .description = .{
+            .name = "CIL (SELinux)",
+            .line_comment = .{";"},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"cil"},
+        },
+    },
+    .{
+        .id = "circom",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .extensions = .{"circom"},
+        },
+    },
+    .{
+        .id = "clojure",
+        .description = .{
+            .line_comment = .{";"},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"clj"},
+        },
+    },
+    .{
+        .id = "clojurec",
+        .description = .{
+            .line_comment = .{";"},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"cljc"},
+        },
+    },
+    .{
+        .id = "clojurescript",
+        .description = .{
+            .line_comment = .{";"},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"cljs"},
+        },
+    },
+    .{
+        .id = "cmake",
+        .description = .{
+            .line_comment = .{"#"},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"cmake"},
+            .filenames = .{"cmakelists.txt"},
+        },
+    },
+    .{
+        .id = "cobol",
+        .description = .{
+            .name = "COBOL",
+            .line_comment = .{"*"},
+            .extensions = .{ "cob", "cbl", "ccp", "cobol", "cpy" },
+        },
+    },
+    .{
+        .id = "codeql",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{ "ql", "qll" },
+        },
+    },
+    .{
+        .id = "coffeescript",
+        .description = .{
+            .line_comment = .{"#"},
+            .multi_line_comments = .{.{ "###", "###" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{ "coffee", "cjsx" },
+        },
+    },
+    .{
+        .id = "cogent",
+        .description = .{
+            .line_comment = .{"--"},
+            .extensions = .{"cogent"},
+        },
+    },
+    .{
+        .id = "coldfusion",
+        .description = .{
+            .multi_line_comments = .{.{ "<!---", "--->" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{"cfm"},
+        },
+    },
+    .{
+        .id = "coldfusionscript",
+        .description = .{
+            .name = "ColdFusion CFScript",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"cfc"},
+        },
+    },
+    .{
+        .id = "coq",
+        .description = .{
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .multi_line_comments = .{.{ "(*", "*)" }},
+            .extensions = .{"v"},
+        },
+    },
+    .{
+        .id = "cpp",
+        .description = .{
+            .name = "C++",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .verbatim_quotes = .{.{ "R\\\"(", ")\\\"" }},
+            .extensions = .{ "cc", "cpp", "cxx", "c++", "pcc", "tpp" },
+        },
+    },
+    .{
+        .id = "cppheader",
+        .description = .{
+            .name = "C++ Header",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{ "hh", "hpp", "hxx", "inl", "ipp" },
+        },
+    },
+    .{
+        .id = "crystal",
+        .description = .{
+            .line_comment = .{"#"},
+            .shebangs = .{"#!/usr/bin/crystal"},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .env = .{"crystal"},
+            .extensions = .{"cr"},
+        },
+    },
+    .{
+        .id = "csharp",
+        .description = .{
+            .name = "C#",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .verbatim_quotes = .{.{ "@\\\"", "\\\"" }},
+            .extensions = .{ "cs", "csx" },
+        },
+    },
+    .{
+        .id = "cshell",
+        .description = .{
+            .name = "C Shell",
+            .shebangs = .{"#!/bin/csh"},
+            .line_comment = .{"#"},
+            .env = .{"csh"},
+            .extensions = .{"csh"},
+        },
+    },
+    .{
+        .id = "css",
+        .description = .{
+            .name = "CSS",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .mime = .{"text/css"},
+            .extensions = .{"css"},
+        },
+    },
+    .{
+        .id = "cuda",
+        .description = .{
+            .name = "CUDA",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"cu"},
+        },
+    },
+    .{
+        .id = "cue",
+        .description = .{
+            .name = "CUE",
+            .line_comment = .{"//"},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" }, .{ "\\\"\\\"\\\"", "\\\"\\\"\\\"" } },
+            .verbatim_quotes = .{.{ "#\\\"", "\\\"#" }},
+            .extensions = .{"cue"},
+        },
+    },
+    .{
+        .id = "cython",
+        .description = .{
+            .line_comment = .{"#"},
+            .doc_quotes = .{ .{ "\\\"\\\"\\\"", "\\\"\\\"\\\"" }, .{ "'''", "'''" } },
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .env = .{"cython"},
+            .extensions = .{ "pyx", "pxd", "pxi" },
+        },
+    },
+    .{
+        .id = "d",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .nested_comments = .{.{ "/+", "+/" }},
+            .extensions = .{"d"},
+        },
+    },
+    .{
+        .id = "d2",
+        .description = .{
+            .line_comment = .{"#"},
+            .multi_line_comments = .{.{ "\\\"\\\"\\\"", "\\\"\\\"\\\"" }},
+            .extensions = .{"d2"},
+        },
+    },
+    .{
+        .id = "daml",
+        .description = .{
+            .name = "DAML",
+            .nested = true,
+            .line_comment = .{"-- "},
+            .multi_line_comments = .{.{ "{-", "-}" }},
+            .extensions = .{"daml"},
+        },
+    },
+    .{
+        .id = "dart",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" }, .{ "\\\"\\\"\\\"", "\\\"\\\"\\\"" }, .{ "'''", "'''" } },
+            .extensions = .{"dart"},
+        },
+    },
+    .{
+        .id = "devicetree",
+        .description = .{
+            .name = "Device Tree",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{ "dts", "dtsi" },
+        },
+    },
+    .{
+        .id = "dhall",
+        .description = .{
+            .nested = true,
+            .line_comment = .{"--"},
+            .multi_line_comments = .{.{ "{-", "-}" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "''", "''" } },
+            .extensions = .{"dhall"},
+        },
+    },
+    .{
+        .id = "dockerfile",
+        .description = .{
+            .line_comment = .{"#"},
+            .extensions = .{ "dockerfile", "dockerignore" },
+            .filenames = .{"dockerfile"},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+        },
+    },
+    .{
+        .id = "dotnetresource",
+        .description = .{
+            .name = ".NET Resource",
+            .multi_line_comments = .{.{ "<!--", "-->" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"resx"},
+        },
+    },
+    .{
+        .id = "dreammaker",
+        .description = .{
+            .name = "Dream Maker",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .nested = true,
+            .extensions = .{ "dm", "dme" },
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "{\\\"", "\\\"}" }, .{ "'", "'" } },
+        },
+    },
+    .{
+        .id = "dust",
+        .description = .{
+            .name = "Dust.js",
+            .multi_line_comments = .{.{ "{!", "!}" }},
+            .extensions = .{"dust"},
+        },
+    },
+    .{
+        .id = "ebuild",
+        .description = .{
+            .line_comment = .{"#"},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{ "ebuild", "eclass" },
+        },
+    },
+    .{
+        .id = "edgeql",
+        .description = .{
+            .name = "EdgeQL",
+            .line_comment = .{"#"},
+            .quotes = .{ .{ "'", "'" }, .{ "\\\"", "\\\"" }, .{ "$", "$" } },
+            .extensions = .{"edgeql"},
+        },
+    },
+    .{
+        .id = "esdl",
+        .description = .{
+            .name = "EdgeDB Schema Definition",
+            .line_comment = .{"#"},
+            .quotes = .{ .{ "'", "'" }, .{ "\\\"", "\\\"" } },
+            .extensions = .{"esdl"},
+        },
+    },
+    .{
+        .id = "edn",
+        .description = .{
+            .line_comment = .{";"},
+            .extensions = .{"edn"},
+        },
+    },
+    .{
+        .id = "eighth",
+        .description = .{
+            .name = "8th",
+            .line_comment = .{ "\\\\ ", "-- " },
+            .multi_line_comments = .{.{ "(*", "*)" }},
+            .nested = true,
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"8th"},
+        },
+    },
+    .{
+        .id = "elisp",
+        .description = .{
+            .name = "Emacs Lisp",
+            .line_comment = .{";"},
+            .extensions = .{"el"},
+        },
+    },
+    .{
+        .id = "elixir",
+        .description = .{
+            .line_comment = .{"#"},
+            .quotes = .{ .{ "\\\"\\\"\\\"", "\\\"\\\"\\\"" }, .{ "\\\"", "\\\"" }, .{ "'''", "'''" }, .{ "'", "'" } },
+            .extensions = .{ "ex", "exs" },
+        },
+    },
+    .{
+        .id = "elm",
+        .description = .{
+            .nested = true,
+            .line_comment = .{"--"},
+            .multi_line_comments = .{.{ "{-", "-}" }},
+            .extensions = .{"elm"},
+        },
+    },
+    .{
+        .id = "elvish",
+        .description = .{
+            .line_comment = .{"#"},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .env = .{"elvish"},
+            .extensions = .{"elv"},
+        },
+    },
+    .{
+        .id = "emacsdevenv",
+        .description = .{
+            .name = "Emacs Dev Env",
+            .line_comment = .{";"},
+            .extensions = .{"ede"},
+        },
+    },
+    .{
+        .id = "emojicode",
+        .description = .{
+            .line_comment = .{"💭"},
+            .multi_line_comments = .{ .{ "💭🔜", "🔚💭" }, .{ "📗", "📗" }, .{ "📘", "📘" } },
+            .quotes = .{.{ "❌🔤", "❌🔤" }},
+            .extensions = .{ "emojic", "🍇" },
+        },
+    },
+    .{
+        .id = "erlang",
+        .description = .{
+            .line_comment = .{"%"},
+            .extensions = .{ "erl", "hrl" },
+        },
+    },
+    .{
+        .id = "factor",
+        .description = .{
+            .line_comment = .{ "!", "#!" },
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .extensions = .{"factor"},
+        },
+    },
+    .{
+        .id = "fen",
+        .description = .{
+            .name = "FEN",
+            .blank = true,
+            .extensions = .{"fen"},
+        },
+    },
+    .{
+        .id = "fennel",
+        .description = .{
+            .line_comment = .{ ";", ";;" },
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"fnl"},
+        },
+    },
+    .{
+        .id = "fish",
+        .description = .{
+            .shebangs = .{"#!/bin/fish"},
+            .line_comment = .{"#"},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .env = .{"fish"},
+            .extensions = .{"fish"},
+        },
+    },
+    .{
+        .id = "flatbuffers",
+        .description = .{
+            .name = "FlatBuffers Schema",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"fbs"},
+        },
+    },
+    .{
+        .id = "forgeconfig",
+        .description = .{
+            .name = "Forge Config",
+            .line_comment = .{ "#", "~" },
+            .extensions = .{"cfg"},
+        },
+    },
+    .{
+        .id = "forth",
+        .description = .{
+            .line_comment = .{"\\\\"},
+            .multi_line_comments = .{.{ "( ", ")" }},
+            .extensions = .{ "4th", "forth", "fr", "frt", "fth", "f83", "fb", "fpm", "e4", "rx", "ft" },
+        },
+    },
+    .{
+        .id = "fortranlegacy",
+        .description = .{
+            .name = "FORTRAN Legacy",
+            .line_comment = .{ "c", "C", "!", "*" },
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{ "f", "for", "ftn", "f77", "pfo" },
+        },
+    },
+    .{
+        .id = "fortranmodern",
+        .description = .{
+            .name = "FORTRAN Modern",
+            .line_comment = .{"!"},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{ "f03", "f08", "f90", "f95", "fpp" },
+        },
+    },
+    .{
+        .id = "freemarker",
+        .description = .{
+            .multi_line_comments = .{.{ "<#--", "-->" }},
+            .extensions = .{ "ftl", "ftlh", "ftlx" },
+        },
+    },
+    .{
+        .id = "fsharp",
+        .description = .{
+            .name = "F#",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "(*", "*)" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .verbatim_quotes = .{.{ "@\\\"", "\\\"" }},
+            .extensions = .{ "fs", "fsi", "fsx", "fsscript" },
+        },
+    },
+    .{
+        .id = "fstar",
+        .description = .{
+            .name = "F*",
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "(*", "*)" }},
+            .extensions = .{ "fst", "fsti" },
+        },
+    },
+    .{
+        .id = "futhark",
+        .description = .{
+            .line_comment = .{"--"},
+            .extensions = .{"fut"},
+        },
+    },
+    .{
+        .id = "gdb",
+        .description = .{
+            .name = "GDB Script",
+            .line_comment = .{"#"},
+            .extensions = .{"gdb"},
+        },
+    },
+    .{
+        .id = "gdscript",
+        .description = .{
+            .name = "GDScript",
+            .line_comment = .{"#"},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" }, .{ "\\\"\\\"\\\"", "\\\"\\\"\\\"" } },
+            .extensions = .{"gd"},
+        },
+    },
+    .{
+        .id = "gherkin",
+        .description = .{
+            .name = "Gherkin (Cucumber)",
+            .line_comment = .{"#"},
+            .extensions = .{"feature"},
+        },
+    },
+    .{
+        .id = "gleam",
+        .description = .{
+            .name = "Gleam",
+            .line_comment = .{ "//", "///", "////" },
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"gleam"},
+        },
+    },
+    .{
+        .id = "glimmerjs",
+        .description = .{
+            .name = "Glimmer JS",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{ .{ "/*", "*/" }, .{ "<!--", "-->" } },
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" }, .{ "`", "`" } },
+            .important_syntax = .{ "<template", "<style" },
+            .extensions = .{"gjs"},
+        },
+    },
+    .{
+        .id = "glimmerts",
+        .description = .{
+            .name = "Glimmer TS",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{ .{ "/*", "*/" }, .{ "<!--", "-->" } },
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" }, .{ "`", "`" } },
+            .important_syntax = .{ "<template", "<style" },
+            .extensions = .{"gts"},
+        },
+    },
+    .{
+        .id = "glsl",
+        .description = .{
+            .name = "GLSL",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{ "vert", "tesc", "tese", "geom", "frag", "comp", "mesh", "task", "rgen", "rint", "rahit", "rchit", "rmiss", "rcall", "glsl" },
+        },
+    },
+    .{
+        .id = "gml",
+        .description = .{
+            .name = "Gml",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"gml"},
+        },
+    },
+    .{
+        .id = "go",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"go"},
+        },
+    },
+    .{
+        .id = "gohtml",
+        .description = .{
+            .name = "Go HTML",
+            .multi_line_comments = .{ .{ "<!--", "-->" }, .{ "{.{/*", "*/}}" } },
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{"gohtml"},
+        },
+    },
+    .{
+        .id = "graphql",
+        .description = .{
+            .name = "GraphQL",
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "\\\"\\\"\\\"", "\\\"\\\"\\\"" } },
+            .line_comment = .{"#"},
+            .extensions = .{ "gql", "graphql" },
+        },
+    },
+    .{
+        .id = "groovy",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .env = .{"groovy"},
+            .extensions = .{ "groovy", "grt", "gtpl", "gvy" },
+        },
+    },
+    .{
+        .id = "gwion",
+        .description = .{
+            .line_comment = .{"#!"},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"gw"},
+        },
+    },
+    .{
+        .id = "haml",
+        .description = .{
+            .line_comment = .{"-#"},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{"haml"},
+        },
+    },
+    .{
+        .id = "hamlet",
+        .description = .{
+            .multi_line_comments = .{.{ "<!--", "-->" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{"hamlet"},
+        },
+    },
+    .{
+        .id = "happy",
+        .description = .{
+            .extensions = .{ "y", "ly" },
+        },
+    },
+    .{
+        .id = "handlebars",
+        .description = .{
+            .multi_line_comments = .{ .{ "<!--", "-->" }, .{ "{.{!", "}}" } },
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{ "hbs", "handlebars" },
+        },
+    },
+    .{
+        .id = "haskell",
+        .description = .{
+            .nested = true,
+            .line_comment = .{"--"},
+            .multi_line_comments = .{.{ "{-", "-}" }},
+            .extensions = .{"hs"},
+        },
+    },
+    .{
+        .id = "haxe",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{"hx"},
+        },
+    },
+    .{
+        .id = "hcl",
+        .description = .{
+            .name = "HCL",
+            .line_comment = .{ "#", "//" },
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{ "hcl", "tf", "tfvars" },
+        },
+    },
+    .{
+        .id = "headache",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"ha"},
+        },
+    },
+    .{
+        .id = "hex",
+        .description = .{
+            .name = "HEX",
+            .blank = true,
+            .extensions = .{"hex"},
+        },
+    },
+    .{
+        .id = "hicad",
+        .description = .{
+            .name = "HICAD",
+            .line_comment = .{ "REM", "rem" },
+            .extensions = .{ "MAC", "mac" },
+        },
+    },
+    .{
+        .id = "hlsl",
+        .description = .{
+            .name = "HLSL",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{ "hlsl", "fx", "fxsub" },
+        },
+    },
+    .{
+        .id = "holyc",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{ "HC", "hc", "ZC", "zc" },
+        },
+    },
+    .{
+        .id = "html",
+        .description = .{
+            .name = "HTML",
+            .multi_line_comments = .{.{ "<!--", "-->" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .kind = "html",
+            .important_syntax = .{ "<script", "<style" },
+            .mime = .{"text/html"},
+            .extensions = .{ "html", "htm" },
+        },
+    },
+    .{
+        .id = "hy",
+        .description = .{
+            .line_comment = .{";"},
+            .extensions = .{"hy"},
+        },
+    },
+    .{
+        .id = "idris",
+        .description = .{
+            .line_comment = .{"--"},
+            .multi_line_comments = .{.{ "{-", "-}" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "\\\"\\\"\\\"", "\\\"\\\"\\\"" } },
+            .extensions = .{ "idr", "lidr" },
+            .nested = true,
+        },
+    },
+    .{
+        .id = "ini",
+        .description = .{
+            .name = "INI",
+            .line_comment = .{ ";", "#" },
+            .extensions = .{"ini"},
+        },
+    },
+    .{
+        .id = "intelhex",
+        .description = .{
+            .name = "Intel HEX",
+            .blank = true,
+            .extensions = .{"ihex"},
+        },
+    },
+    .{
+        .id = "isabelle",
+        .description = .{
+            .line_comment = .{"--"},
+            .multi_line_comments = .{ .{ "{*", "*}" }, .{ "(*", "*)" }, .{ "‹", "›" }, .{ "\\\\<open>", "\\\\<close>" } },
+            .quotes = .{.{ "''", "''" }},
+            .extensions = .{"thy"},
+        },
+    },
+    .{
+        .id = "jai",
+        .description = .{
+            .name = "JAI",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"jai"},
+            .nested = true,
+        },
+    },
+    .{
+        .id = "janet",
+        .description = .{
+            .line_comment = .{"#"},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" }, .{ "`", "`" } },
+            .extensions = .{"janet"},
+        },
+    },
+    .{
+        .id = "java",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"java"},
+        },
+    },
+    .{
+        .id = "javascript",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" }, .{ "`", "`" } },
+            .mime = .{ "application/javascript", "application/ecmascript", "application/x-ecmascript", "application/x-javascript", "text/javascript", "text/ecmascript", "text/javascript1.0", "text/javascript1.1", "text/javascript1.2", "text/javascript1.3", "text/javascript1.4", "text/javascript1.5", "text/jscript", "text/livescript", "text/x-ecmascript", "text/x-javascript" },
+            .extensions = .{ "cjs", "js", "mjs" },
+        },
+    },
+    .{
+        .id = "jinja2",
+        .description = .{
+            .name = "Jinja2",
+            .blank = true,
+            .extensions = .{ "j2", "jinja" },
+            .multi_line_comments = .{.{ "{#", "#}" }},
+        },
+    },
+    .{
+        .id = "jq",
+        .description = .{
+            .name = "jq",
+            .line_comment = .{"#"},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"jq"},
+        },
+    },
+    .{
+        .id = "jslt",
+        .description = .{
+            .name = "JSLT",
+            .line_comment = .{"//"},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"jslt"},
+        },
+    },
+    .{
+        .id = "json",
+        .description = .{
+            .name = "JSON",
+            .blank = true,
+            .mime = .{ "application/json", "application/manifest+json" },
+            .extensions = .{"json"},
+        },
+    },
+    .{
+        .id = "jsonnet",
+        .description = .{
+            .line_comment = .{ "//", "#" },
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{ "jsonnet", "libsonnet" },
+        },
+    },
+    .{
+        .id = "jsx",
+        .description = .{
+            .name = "JSX",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" }, .{ "`", "`" } },
+            .extensions = .{"jsx"},
+        },
+    },
+    .{
+        .id = "julia",
+        .description = .{
+            .line_comment = .{"#"},
+            .multi_line_comments = .{.{ "#=", "=#" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "\\\"\\\"\\\"", "\\\"\\\"\\\"" } },
+            .nested = true,
+            .extensions = .{"jl"},
+        },
+    },
+    .{
+        .id = "julius",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" }, .{ "`", "`" } },
+            .extensions = .{"julius"},
+        },
+    },
+    .{
+        .id = "jupyter",
+        .description = .{
+            .name = "Jupyter Notebooks",
+            .extensions = .{"ipynb"},
+        },
+    },
+    .{
+        .id = "just",
+        .description = .{
+            .shebangs = .{"#!/usr/bin/env just --justfile"},
+            .env = .{"just"},
+            .line_comment = .{"#"},
+            .extensions = .{"just"},
+            .filenames = .{"justfile"},
+        },
+    },
+    .{
+        .id = "k",
+        .description = .{
+            .name = "K",
+            .nested = true,
+            .line_comment = .{"/"},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"k"},
+        },
+    },
+    .{
+        .id = "kakounescript",
+        .description = .{
+            .name = "Kakoune script",
+            .line_comment = .{"#"},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{"kak"},
+        },
+    },
+    .{
+        .id = "kotlin",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .nested = true,
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "\\\"\\\"\\\"", "\\\"\\\"\\\"" } },
+            .extensions = .{ "kt", "kts" },
+        },
+    },
+    .{
+        .id = "ksh",
+        .description = .{
+            .name = "Korn shell",
+            .shebangs = .{"#!/bin/ksh"},
+            .line_comment = .{"#"},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .env = .{"ksh"},
+            .extensions = .{"ksh"},
+        },
+    },
+    .{
+        .id = "lalrpop",
+        .description = .{
+            .name = "LALRPOP",
+            .line_comment = .{"//"},
+            .extensions = .{"lalrpop"},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "#\\\"", "\\\"#" } },
+            .verbatim_quotes = .{ .{ "r##\\\"", "\\\"##" }, .{ "r#\\\"", "\\\"#" } },
+        },
+    },
+    .{
+        .id = "kvlanguage",
+        .description = .{
+            .name = ".KV Language",
+            .line_comment = .{"# "},
+            .doc_quotes = .{ .{ "\\\"\\\"\\\"", "\\\"\\\"\\\"" }, .{ "'''", "'''" } },
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{"kv"},
+        },
+    },
+    .{
+        .id = "lean",
+        .description = .{
+            .line_comment = .{"--"},
+            .multi_line_comments = .{.{ "/-", "-/" }},
+            .nested = true,
+            .extensions = .{ "lean", "hlean" },
+        },
+    },
+    .{
+        .id = "hledger",
+        .description = .{
+            .name = "hledger",
+            .line_comment = .{ ";", "#" },
+            .multi_line_comments = .{.{ "comment", "end comment" }},
+            .nested = false,
+            .extensions = .{"hledger"},
+        },
+    },
+    .{
+        .id = "less",
+        .description = .{
+            .name = "LESS",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .extensions = .{"less"},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+        },
+    },
+    .{
+        .id = "lex",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .extensions = .{ "l", "lex" },
+        },
+    },
+    .{
+        .id = "liquid",
+        .description = .{
+            .name = "Liquid",
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{"liquid"},
+            .multi_line_comments = .{ .{ "<!--", "-->" }, .{ "{% comment %}", "{% endcomment %}" } },
+        },
+    },
+    .{
+        .id = "linguafranca",
+        .description = .{
+            .name = "Lingua Franca",
+            .line_comment = .{ "//", "#" },
+            .important_syntax = .{"{="},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .nested = true,
+            .extensions = .{"lf"},
+        },
+    },
+    .{
+        .id = "linkerscript",
+        .description = .{
+            .name = "LD Script",
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{ "ld", "lds" },
+        },
+    },
+    .{
+        .id = "lisp",
+        .description = .{
+            .name = "Common Lisp",
+            .line_comment = .{";"},
+            .multi_line_comments = .{.{ "#|", "|#" }},
+            .nested = true,
+            .extensions = .{ "lisp", "lsp", "asd" },
+        },
+    },
+    .{
+        .id = "livescript",
+        .description = .{
+            .line_comment = .{"#"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{"ls"},
+        },
+    },
+    .{
+        .id = "llvm",
+        .description = .{
+            .line_comment = .{";"},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{"ll"},
+        },
+    },
+    .{
+        .id = "logtalk",
+        .description = .{
+            .line_comment = .{"%"},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .extensions = .{ "lgt", "logtalk" },
+        },
+    },
+    .{
+        .id = "lolcode",
+        .description = .{
+            .name = "LOLCODE",
+            .line_comment = .{"BTW"},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .multi_line_comments = .{.{ "OBTW", "TLDR" }},
+            .extensions = .{"lol"},
+        },
+    },
+    .{
+        .id = "lua",
+        .description = .{
+            .line_comment = .{"--"},
+            .multi_line_comments = .{.{ "--{.{", "}}" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{ "lua", "luau" },
+        },
+    },
+    .{
+        .id = "lucius",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{"lucius"},
+        },
+    },
+    .{
+        .id = "m4",
+        .description = .{
+            .extensions = .{"m4"},
+            .line_comment = .{ "#", "dnl" },
+            .quotes = .{.{ "`", "'" }},
+        },
+    },
+    .{
+        .id = "madlang",
+        .description = .{
+            .extensions = .{"mad"},
+            .line_comment = .{"#"},
+            .multi_line_comments = .{.{ "{#", "#}" }},
+        },
+    },
+    .{
+        .id = "makefile",
+        .description = .{
+            .line_comment = .{"#"},
+            .extensions = .{ "makefile", "mak", "mk" },
+            .filenames = .{ "gnumakefile", "makefile" },
+        },
+    },
+    .{
+        .id = "markdown",
+        .description = .{
+            .literate = true,
+            .important_syntax = .{"```"},
+            .extensions = .{ "md", "markdown" },
+        },
+    },
+    .{
+        .id = "max",
+        .description = .{
+            .extensions = .{"maxpat"},
+        },
+    },
+    .{
+        .id = "mdx",
+        .description = .{
+            .name = "MDX",
+            .literate = true,
+            .important_syntax = .{"```"},
+            .extensions = .{"mdx"},
+        },
+    },
+    .{
+        .id = "menhir",
+        .description = .{
+            .nested = true,
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .line_comment = .{"//"},
+            .multi_line_comments = .{ .{ "(*", "*)" }, .{ "/*", "*/" } },
+            .extensions = .{ "mll", "mly", "vy" },
+        },
+    },
+    .{
+        .id = "meson",
+        .description = .{
+            .line_comment = .{"#"},
+            .quotes = .{ .{ "'", "'" }, .{ "'''", "'''" } },
+            .filenames = .{ "meson.build", "meson_options.txt" },
+        },
+    },
+    .{
+        .id = "metal",
+        .description = .{
+            .name = "Metal Shading Language",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"metal"},
+        },
+    },
+    .{
+        .id = "mint",
+        .description = .{
+            .blank = true,
+            .extensions = .{"mint"},
+        },
+    },
+    .{
+        .id = "mlatu",
+        .description = .{
+            .line_comment = .{"//"},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"mlt"},
+        },
+    },
+    .{
+        .id = "modelica",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{ "mo", "mos" },
+        },
+    },
+    .{
+        .id = "moduledef",
+        .description = .{
+            .name = "Module-Definition",
+            .extensions = .{"def"},
+            .line_comment = .{";"},
+        },
+    },
+    .{
+        .id = "mojo",
+        .description = .{
+            .line_comment = .{"#"},
+            .doc_quotes = .{ .{ "\\\"\\\"\\\"", "\\\"\\\"\\\"" }, .{ "'''", "'''" } },
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{ "mojo", "🔥" },
+        },
+    },
+    .{
+        .id = "monkeyc",
+        .description = .{
+            .name = "Monkey C",
+            .extensions = .{"mc"},
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+        },
+    },
+    .{
+        .id = "moonbit",
+        .description = .{
+            .line_comment = .{"//"},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{ "mbt", "mbti" },
+        },
+    },
+    .{
+        .id = "moonscript",
+        .description = .{
+            .line_comment = .{"--"},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{"moon"},
+        },
+    },
+    .{
+        .id = "msbuild",
+        .description = .{
+            .name = "MSBuild",
+            .multi_line_comments = .{.{ "<!--", "-->" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{ "csproj", "vbproj", "fsproj", "props", "targets" },
+        },
+    },
+    .{
+        .id = "mustache",
+        .description = .{
+            .multi_line_comments = .{.{ "{.{!", "}}" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{"mustache"},
+        },
+    },
+    .{
+        .id = "nextflow",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{ "nextflow", "nf" },
+        },
+    },
+    .{
+        .id = "nim",
+        .description = .{
+            .line_comment = .{"#"},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "\\\"\\\"\\\"", "\\\"\\\"\\\"" } },
+            .extensions = .{"nim"},
+        },
+    },
+    .{
+        .id = "nix",
+        .description = .{
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .line_comment = .{"#"},
+            .extensions = .{"nix"},
+        },
+    },
+    .{
+        .id = "notquiteperl",
+        .description = .{
+            .name = "Not Quite Perl",
+            .line_comment = .{"#"},
+            .multi_line_comments = .{.{ "=begin", "=end" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{"nqp"},
+        },
+    },
+    .{
+        .id = "nugetconfig",
+        .description = .{
+            .name = "NuGet Config",
+            .multi_line_comments = .{.{ "<!--", "-->" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .filenames = .{ "nuget.config", "packages.config", "nugetdefaults.config" },
+        },
+    },
+    .{
+        .id = "nushell",
+        .description = .{
+            .line_comment = .{"#"},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{"nu"},
+        },
+    },
+    .{
+        .id = "objectivec",
+        .description = .{
+            .name = "Objective-C",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"m"},
+        },
+    },
+    .{
+        .id = "objectivecpp",
+        .description = .{
+            .name = "Objective-C++",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"mm"},
+        },
+    },
+    .{
+        .id = "ocaml",
+        .description = .{
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .multi_line_comments = .{.{ "(*", "*)" }},
+            .extensions = .{ "ml", "mli", "re", "rei" },
+        },
+    },
+    .{
+        .id = "odin",
+        .description = .{
+            .extensions = .{"odin"},
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+        },
+    },
+    .{
+        .id = "openscad",
+        .description = .{
+            .name = "OpenSCAD",
+            .extensions = .{"scad"},
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+        },
+    },
+    .{
+        .id = "openpolicyagent",
+        .description = .{
+            .name = "Open Policy Agent",
+            .line_comment = .{"#"},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "`", "`" } },
+            .extensions = .{"rego"},
+        },
+    },
+    .{
+        .id = "opencl",
+        .description = .{
+            .name = "OpenCL",
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .extensions = .{ "cl", "ocl" },
+        },
+    },
+    .{
+        .id = "openqasm",
+        .description = .{
+            .name = "OpenQASM",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .extensions = .{"qasm"},
+        },
+    },
+    .{
+        .id = "opentype",
+        .description = .{
+            .name = "OpenType Feature File",
+            .line_comment = .{"#"},
+            .extensions = .{"fea"},
+        },
+    },
+    .{
+        .id = "org",
+        .description = .{
+            .line_comment = .{"# "},
+            .extensions = .{"org"},
+        },
+    },
+    .{
+        .id = "oz",
+        .description = .{
+            .line_comment = .{"%"},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .extensions = .{"oz"},
+        },
+    },
+    .{
+        .id = "pacmanmakepkg",
+        .description = .{
+            .name = "Pacman's makepkg",
+            .line_comment = .{"#"},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .filenames = .{"pkgbuild"},
+        },
+    },
+    .{
+        .id = "pan",
+        .description = .{
+            .line_comment = .{"#"},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{ "pan", "tpl" },
+        },
+    },
+    .{
+        .id = "pascal",
+        .description = .{
+            .nested = true,
+            .line_comment = .{"//"},
+            .multi_line_comments = .{ .{ "{", "}" }, .{ "(*", "*)" } },
+            .quotes = .{.{ "'", "'" }},
+            .extensions = .{"pas"},
+        },
+    },
+    .{
+        .id = "perl",
+        .description = .{
+            .shebangs = .{"#!/usr/bin/perl"},
+            .line_comment = .{"#"},
+            .multi_line_comments = .{.{ "=pod", "=cut" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{ "pl", "pm" },
+        },
+    },
+    .{
+        .id = "pest",
+        .description = .{
+            .line_comment = .{"//"},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{"pest"},
+        },
+    },
+    .{
+        .id = "phix",
+        .description = .{
+            .line_comment = .{ "--", "//", "#!" },
+            .multi_line_comments = .{ .{ "/*", "*/" }, .{ "--/*", "--*/" } },
+            .nested = true,
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .verbatim_quotes = .{ .{ "\\\"\\\"\\\"", "\\\"\\\"\\\"" }, .{ "`", "`" } },
+            .extensions = .{ "e", "exw" },
+        },
+    },
+    .{
+        .id = "php",
+        .description = .{
+            .name = "PHP",
+            .line_comment = .{ "#", "//" },
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{"php"},
+        },
+    },
+    .{
+        .id = "plantuml",
+        .description = .{
+            .name = "PlantUML",
+            .line_comment = .{"'"},
+            .multi_line_comments = .{.{ "/'", "'/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"puml"},
+        },
+    },
+    .{
+        .id = "po",
+        .description = .{
+            .name = "PO File",
+            .line_comment = .{"#"},
+            .extensions = .{ "po", "pot" },
+        },
+    },
+    .{
+        .id = "poke",
+        .description = .{
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .extensions = .{"pk"},
+        },
+    },
+    .{
+        .id = "polly",
+        .description = .{
+            .multi_line_comments = .{.{ "<!--", "-->" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{"polly"},
+        },
+    },
+    .{
+        .id = "pony",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .doc_quotes = .{.{ "\\\"\\\"\\\"", "\\\"\\\"\\\"" }},
+            .extensions = .{"pony"},
+        },
+    },
+    .{
+        .id = "postcss",
+        .description = .{
+            .name = "PostCSS",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{ "pcss", "sss" },
+        },
+    },
+    .{
+        .id = "powershell",
+        .description = .{
+            .line_comment = .{"#"},
+            .multi_line_comments = .{.{ "<#", "#>" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" }, .{ "\\\"@", "@\\\"" }, .{ "@'", "'@" } },
+            .extensions = .{ "ps1", "psm1", "psd1", "ps1xml", "cdxml", "pssc", "psc1" },
+        },
+    },
+    .{
+        .id = "practice",
+        .description = .{
+            .name = "Lauterbach PRACTICE Script",
+            .line_comment = .{ ";", "//" },
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"cmm"},
+        },
+    },
+    .{
+        .id = "processing",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"pde"},
+        },
+    },
+    .{
+        .id = "prolog",
+        .description = .{
+            .line_comment = .{"%"},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .extensions = .{ "p", "pro" },
+        },
+    },
+    .{
+        .id = "psl",
+        .description = .{
+            .name = "PSL Assertion",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"psl"},
+        },
+    },
+    .{
+        .id = "protobuf",
+        .description = .{
+            .name = "Protocol Buffers",
+            .line_comment = .{"//"},
+            .extensions = .{"proto"},
+        },
+    },
+    .{
+        .id = "pug",
+        .description = .{
+            .line_comment = .{ "//", "//-" },
+            .quotes = .{ .{ "#{\\\"", "\\\"}" }, .{ "#{'", "'}" }, .{ "#{`", "`}" } },
+            .extensions = .{"pug"},
+        },
+    },
+    .{
+        .id = "puppet",
+        .description = .{
+            .line_comment = .{"#"},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{"pp"},
+        },
+    },
+    .{
+        .id = "purescript",
+        .description = .{
+            .nested = true,
+            .line_comment = .{"--"},
+            .multi_line_comments = .{.{ "{-", "-}" }},
+            .extensions = .{"purs"},
+        },
+    },
+    .{
+        .id = "pyret",
+        .description = .{
+            .line_comment = .{"#"},
+            .multi_line_comments = .{.{ "#|", "|#" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{"arr"},
+            .nested = true,
+        },
+    },
+    .{
+        .id = "python",
+        .description = .{
+            .line_comment = .{"#"},
+            .doc_quotes = .{ .{ "\\\"\\\"\\\"", "\\\"\\\"\\\"" }, .{ "'''", "'''" } },
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .env = .{ "python", "python2", "python3" },
+            .mime = .{"text/x-python"},
+            .extensions = .{ "py", "pyw", "pyi" },
+        },
+    },
+    .{
+        .id = "prql",
+        .description = .{
+            .line_comment = .{"#"},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .mime = .{"application/prql"},
+            .extensions = .{"prql"},
+        },
+    },
+    .{
+        .id = "q",
+        .description = .{
+            .name = "Q",
+            .nested = true,
+            .line_comment = .{"/"},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"q"},
+        },
+    },
+    .{
+        .id = "qcl",
+        .description = .{
+            .name = "QCL",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"qcl"},
+        },
+    },
+    .{
+        .id = "qml",
+        .description = .{
+            .name = "QML",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{"qml"},
+        },
+    },
+    .{
+        .id = "r",
+        .description = .{
+            .line_comment = .{"#"},
+            .extensions = .{"r"},
+        },
+    },
+    .{
+        .id = "racket",
+        .description = .{
+            .line_comment = .{";"},
+            .multi_line_comments = .{.{ "#|", "|#" }},
+            .nested = true,
+            .env = .{"racket"},
+            .extensions = .{ "rkt", "scrbl" },
+        },
+    },
+    .{
+        .id = "rakefile",
+        .description = .{
+            .line_comment = .{"#"},
+            .multi_line_comments = .{.{ "=begin", "=end" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .filenames = .{"rakefile"},
+            .extensions = .{"rake"},
+        },
+    },
+    .{
+        .id = "raku",
+        .description = .{
+            .shebangs = .{ "#!/usr/bin/raku", "#!/usr/bin/perl6" },
+            .line_comment = .{"#"},
+            .multi_line_comments = .{ .{ "#`(", ")" }, .{ "#`.{", "}" }, .{ "#`{", "}" }, .{ "#`｢", "｣" } },
+            .nested = true,
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .verbatim_quotes = .{.{ "｢", "｣" }},
+            .doc_quotes = .{ .{ "#|{", "}" }, .{ "#={", "}" }, .{ "#|(", ")" }, .{ "#=(", ")" }, .{ "#|.{", "}" }, .{ "#=.{", "}" }, .{ "#|｢", "｣" }, .{ "#=｢", "｣" }, .{ "=begin pod", "=end pod" }, .{ "=begin code", "=end code" }, .{ "=begin head", "=end head" }, .{ "=begin item", "=end item" }, .{ "=begin table", "=end table" }, .{ "=begin defn", "=end defn" }, .{ "=begin para", "=end para" }, .{ "=begin comment", "=end comment" }, .{ "=begin data", "=end data" }, .{ "=begin DESCRIPTION", "=end DESCRIPTION" }, .{ "=begin SYNOPSIS", "=end SYNOPSIS" }, .{ "=begin ", "=end " } },
+            .env = .{ "raku", "perl6" },
+            .extensions = .{ "raku", "rakumod", "rakutest", "pm6", "pl6", "p6" },
+        },
+    },
+    .{
+        .id = "razor",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{ .{ "<!--", "-->" }, .{ "@*", "*@" }, .{ "/*", "*/" } },
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .verbatim_quotes = .{.{ "@\\\"", "\\\"" }},
+            .extensions = .{ "cshtml", "razor" },
+        },
+    },
+    .{
+        .id = "redscript",
+        .description = .{
+            .name = "Redscript",
+            .line_comment = .{ "//", "///" },
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .nested = true,
+            .extensions = .{"reds"},
+        },
+    },
+    .{
+        .id = "renpy",
+        .description = .{
+            .name = "Ren'Py",
+            .line_comment = .{"#"},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" }, .{ "`", "`" } },
+            .extensions = .{"rpy"},
+        },
+    },
+    .{
+        .id = "rescript",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{ "res", "resi" },
+        },
+    },
+    .{
+        .id = "restructuredtext",
+        .description = .{
+            .blank = true,
+            .extensions = .{"rst"},
+        },
+    },
+    .{
+        .id = "roc",
+        .description = .{
+            .line_comment = .{"#"},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .doc_quotes = .{.{ "\\\"\\\"\\\"", "\\\"\\\"\\\"" }},
+            .extensions = .{"roc"},
+        },
+    },
+    .{
+        .id = "ron",
+        .description = .{
+            .name = "Rusty Object Notation",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .nested = true,
+            .extensions = .{"ron"},
+        },
+    },
+    .{
+        .id = "rpmspecfile",
+        .description = .{
+            .name = "RPM Specfile",
+            .line_comment = .{"#"},
+            .extensions = .{"spec"},
+        },
+    },
+    .{
+        .id = "ruby",
+        .description = .{
+            .line_comment = .{"#"},
+            .multi_line_comments = .{.{ "=begin", "=end" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .env = .{"ruby"},
+            .extensions = .{"rb"},
+        },
+    },
+    .{
+        .id = "rubyhtml",
+        .description = .{
+            .name = "Ruby HTML",
+            .multi_line_comments = .{.{ "<!--", "-->" }},
+            .important_syntax = .{ "<script", "<style" },
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{ "rhtml", "erb" },
+        },
+    },
+    .{
+        .id = "rust",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .nested = true,
+            .important_syntax = .{ "///", "//!" },
+            .extensions = .{"rs"},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "#\\\"", "\\\"#" } },
+            .verbatim_quotes = .{ .{ "r##\\\"", "\\\"##" }, .{ "r#\\\"", "\\\"#" } },
+        },
+    },
+    .{
+        .id = "sass",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{ "sass", "scss" },
+        },
+    },
+    .{
+        .id = "scala",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{ "sc", "scala" },
+        },
+    },
+    .{
+        .id = "scheme",
+        .description = .{
+            .line_comment = .{";"},
+            .multi_line_comments = .{.{ "#|", "|#" }},
+            .nested = true,
+            .extensions = .{ "scm", "ss" },
+        },
+    },
+    .{
+        .id = "scons",
+        .description = .{
+            .line_comment = .{"#"},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" }, .{ "\\\"\\\"\\\"", "\\\"\\\"\\\"" }, .{ "'''", "'''" } },
+            .filenames = .{ "sconstruct", "sconscript" },
+        },
+    },
+    .{
+        .id = "sh",
+        .description = .{
+            .name = "Shell",
+            .shebangs = .{"#!/bin/sh"},
+            .line_comment = .{"#"},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .env = .{"sh"},
+            .extensions = .{"sh"},
+        },
+    },
+    .{
+        .id = "shaderlab",
+        .description = .{
+            .name = "ShaderLab",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{ "shader", "cginc" },
+        },
+    },
+    .{
+        .id = "sil",
+        .description = .{
+            .name = "SIL",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{ .{ "/*", "*/" }, .{ "/+", "+/" } },
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" }, .{ "`", "`" } },
+            .extensions = .{"sil"},
+        },
+    },
+    .{
+        .id = "slang",
+        .description = .{
+            .name = "Slang",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"slang"},
+        },
+    },
+    .{
+        .id = "sml",
+        .description = .{
+            .name = "Standard ML (SML)",
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .multi_line_comments = .{.{ "(*", "*)" }},
+            .extensions = .{"sml"},
+        },
+    },
+    .{
+        .id = "smalltalk",
+        .description = .{
+            .name = "Smalltalk",
+            .quotes = .{.{ "'", "'" }},
+            .multi_line_comments = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{ "cs.st", "pck.st" },
+        },
+    },
+    .{
+        .id = "snakemake",
+        .description = .{
+            .line_comment = .{"#"},
+            .doc_quotes = .{ .{ "\\\"\\\"\\\"", "\\\"\\\"\\\"" }, .{ "'''", "'''" } },
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{ "smk", "rules" },
+            .filenames = .{"snakefile"},
+        },
+    },
+    .{
+        .id = "solidity",
+        .description = .{
+            .name = "Solidity",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"sol"},
+        },
+    },
+    .{
+        .id = "specmane",
+        .description = .{
+            .name = "Specman e",
+            .line_comment = .{ "--", "//" },
+            .multi_line_comments = .{.{ "'>", "<'" }},
+            .extensions = .{"e"},
+        },
+    },
+    .{
+        .id = "spice",
+        .description = .{
+            .name = "Spice Netlist",
+            .line_comment = .{"*"},
+            .extensions = .{"ckt"},
+        },
+    },
+    .{
+        .id = "sql",
+        .description = .{
+            .name = "SQL",
+            .line_comment = .{"--"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "'", "'" }},
+            .extensions = .{"sql"},
+        },
+    },
+    .{
+        .id = "sqf",
+        .description = .{
+            .name = "SQF",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{"sqf"},
+        },
+    },
+    .{
+        .id = "srecode",
+        .description = .{
+            .name = "SRecode Template",
+            .line_comment = .{";;"},
+            .extensions = .{"srt"},
+        },
+    },
+    .{
+        .id = "stan",
+        .description = .{
+            .line_comment = .{ "//", "#" },
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"stan"},
+        },
+    },
+    .{
+        .id = "stata",
+        .description = .{
+            .line_comment = .{ "//", "*" },
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .extensions = .{"do"},
+        },
+    },
+    .{
+        .id = "stratego",
+        .description = .{
+            .name = "Stratego/XT",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "${", "}" }, .{ "$<", ">" }, .{ "${", "}" } },
+            .extensions = .{"str"},
+        },
+    },
+    .{
+        .id = "stylus",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{"styl"},
+        },
+    },
+    .{
+        .id = "svelte",
+        .description = .{
+            .multi_line_comments = .{.{ "<!--", "-->" }},
+            .important_syntax = .{ "<script", "<style" },
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{"svelte"},
+        },
+    },
+    .{
+        .id = "svg",
+        .description = .{
+            .name = "SVG",
+            .multi_line_comments = .{.{ "<!--", "-->" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .mime = .{"image/svg+xml"},
+            .extensions = .{"svg"},
+        },
+    },
+    .{
+        .id = "swift",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .nested = true,
+            .extensions = .{"swift"},
+        },
+    },
+    .{
+        .id = "swig",
+        .description = .{
+            .name = "SWIG",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .nested = true,
+            .extensions = .{ "swg", "i" },
+        },
+    },
+    .{
+        .id = "systemverilog",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{ "sv", "svh" },
+        },
+    },
+    .{
+        .id = "slint",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"slint"},
+        },
+    },
+    .{
+        .id = "tact",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"tact"},
+        },
+    },
+    .{
+        .id = "tcl",
+        .description = .{
+            .name = "TCL",
+            .line_comment = .{"#"},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{"tcl"},
+        },
+    },
+    .{
+        .id = "tera",
+        .description = .{
+            .multi_line_comments = .{ .{ "<!--", "-->" }, .{ "{#", "#}" } },
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{"tera"},
+        },
+    },
+    .{
+        .id = "templ",
+        .description = .{
+            .name = "Templ",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{ .{ "<!--", "-->" }, .{ "/*", "*/" } },
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" }, .{ "`", "`" } },
+            .important_syntax = .{ "templ", "script", "css" },
+            .extensions = .{ "templ", "tmpl" },
+        },
+    },
+    .{
+        .id = "tex",
+        .description = .{
+            .name = "TeX",
+            .line_comment = .{"%"},
+            .extensions = .{ "tex", "sty" },
+        },
+    },
+    .{
+        .id = "text",
+        .description = .{
+            .name = "Plain Text",
+            .literate = true,
+            .mime = .{"text/plain"},
+            .extensions = .{ "text", "txt" },
+        },
+    },
+    .{
+        .id = "thrift",
+        .description = .{
+            .line_comment = .{ "#", "//" },
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{"thrift"},
+        },
+    },
+    .{
+        .id = "toml",
+        .description = .{
+            .name = "TOML",
+            .line_comment = .{"#"},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" }, .{ "\\\"\\\"\\\"", "\\\"\\\"\\\"" }, .{ "'''", "'''" } },
+            .extensions = .{"toml"},
+        },
+    },
+    .{
+        .id = "tsx",
+        .description = .{
+            .name = "TSX",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" }, .{ "`", "`" } },
+            .extensions = .{"tsx"},
+        },
+    },
+    .{
+        .id = "ttcn",
+        .description = .{
+            .name = "TTCN-3",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{ "ttcn", "ttcn3", "ttcnpp" },
+        },
+    },
+    .{
+        .id = "twig",
+        .description = .{
+            .name = "Twig",
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{"twig"},
+            .multi_line_comments = .{ .{ "<!--", "-->" }, .{ "{#", "#}" } },
+        },
+    },
+    .{
+        .id = "typescript",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" }, .{ "`", "`" } },
+            .extensions = .{ "ts", "mts", "cts" },
+        },
+    },
+    .{
+        .id = "typst",
+        .description = .{
+            .nested = true,
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"typ"},
+        },
+    },
+    .{
+        .id = "uiua",
+        .description = .{
+            .line_comment = .{"#"},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"ua"},
+        },
+    },
+    .{
+        .id = "umpl",
+        .description = .{
+            .line_comment = .{"!"},
+            .quotes = .{.{ "`", "`" }},
+            .extensions = .{"umpl"},
+        },
+    },
+    .{
+        .id = "unison",
+        .description = .{
+            .nested = true,
+            .line_comment = .{"--"},
+            .multi_line_comments = .{.{ "{-", "-}" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"u"},
+        },
+    },
+    .{
+        .id = "unrealdevelopermarkdown",
+        .description = .{
+            .name = "Unreal Markdown",
+            .important_syntax = .{"```"},
+            .extensions = .{"udn"},
+        },
+    },
+    .{
+        .id = "unrealplugin",
+        .description = .{
+            .name = "Unreal Plugin",
+            .blank = true,
+            .extensions = .{"uplugin"},
+        },
+    },
+    .{
+        .id = "unrealproject",
+        .description = .{
+            .name = "Unreal Project",
+            .blank = true,
+            .extensions = .{"uproject"},
+        },
+    },
+    .{
+        .id = "unrealscript",
+        .description = .{
+            .name = "Unreal Script",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{ "uc", "uci", "upkg" },
+        },
+    },
+    .{
+        .id = "unrealshader",
+        .description = .{
+            .name = "Unreal Shader",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"usf"},
+        },
+    },
+    .{
+        .id = "unrealshaderheader",
+        .description = .{
+            .name = "Unreal Shader Header",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"ush"},
+        },
+    },
+    .{
+        .id = "urweb",
+        .description = .{
+            .name = "Ur/Web",
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .multi_line_comments = .{.{ "(*", "*)" }},
+            .extensions = .{ "ur", "urs" },
+        },
+    },
+    .{
+        .id = "urwebproject",
+        .description = .{
+            .name = "Ur/Web Project",
+            .line_comment = .{"#"},
+            .extensions = .{"urp"},
+        },
+    },
+    .{
+        .id = "vala",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"vala"},
+        },
+    },
+    .{
+        .id = "vb6",
+        .description = .{
+            .name = "VB6",
+            .line_comment = .{"'"},
+            .extensions = .{ "frm", "bas", "cls" },
+        },
+    },
+    .{
+        .id = "vbscript",
+        .description = .{
+            .name = "VBScript",
+            .line_comment = .{ "'", "REM" },
+            .extensions = .{"vbs"},
+        },
+    },
+    .{
+        .id = "velocity",
+        .description = .{
+            .name = "Apache Velocity",
+            .line_comment = .{"##"},
+            .multi_line_comments = .{.{ "#*", "*#" }},
+            .extensions = .{"vm"},
+            .quotes = .{ .{ "'", "'" }, .{ "\\\"", "\\\"" } },
+        },
+    },
+    .{
+        .id = "verilog",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{ "vg", "vh" },
+        },
+    },
+    .{
+        .id = "verilogargsfile",
+        .description = .{
+            .name = "Verilog Args File",
+            .extensions = .{ "irunargs", "xrunargs" },
+        },
+    },
+    .{
+        .id = "vhdl",
+        .description = .{
+            .name = "VHDL",
+            .line_comment = .{"--"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .extensions = .{ "vhd", "vhdl" },
+        },
+    },
+    .{
+        .id = "virgil",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"v3"},
+        },
+    },
+    .{
+        .id = "visualbasic",
+        .description = .{
+            .name = "Visual Basic",
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .line_comment = .{"'"},
+            .extensions = .{"vb"},
+        },
+    },
+    .{
+        .id = "visualstudioproject",
+        .description = .{
+            .name = "Visual Studio Project",
+            .multi_line_comments = .{.{ "<!--", "-->" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{ "vcproj", "vcxproj" },
+        },
+    },
+    .{
+        .id = "visualstudiosolution",
+        .description = .{
+            .name = "Visual Studio Solution",
+            .blank = true,
+            .extensions = .{"sln"},
+        },
+    },
+    .{
+        .id = "vimscript",
+        .description = .{
+            .name = "Vim Script",
+            .line_comment = .{"\\\""},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{"vim"},
+        },
+    },
+    .{
+        .id = "vue",
+        .description = .{
+            .name = "Vue",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{ .{ "<!--", "-->" }, .{ "/*", "*/" } },
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" }, .{ "`", "`" } },
+            .important_syntax = .{ "<script", "<style", "<template" },
+            .extensions = .{"vue"},
+        },
+    },
+    .{
+        .id = "webassembly",
+        .description = .{
+            .line_comment = .{";;"},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{ "wat", "wast" },
+        },
+    },
+    .{
+        .id = "wenyan",
+        .description = .{
+            .name = ".The WenYan Programming Language",
+            .multi_line_comments = .{ .{ "批曰。", "。" }, .{ "疏曰。", "。" } },
+            .extensions = .{"wy"},
+        },
+    },
+    .{
+        .id = "wgsl",
+        .description = .{
+            .name = "WebGPU Shader Language",
+            .line_comment = .{"//"},
+            .extensions = .{"wgsl"},
+        },
+    },
+    .{
+        .id = "wolfram",
+        .description = .{
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .multi_line_comments = .{.{ "(*", "*)" }},
+            .extensions = .{ "nb", "wl" },
+        },
+    },
+    .{
+        .id = "xaml",
+        .description = .{
+            .name = "XAML",
+            .multi_line_comments = .{.{ "<!--", "-->" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{"xaml"},
+        },
+    },
+    .{
+        .id = "xcodeconfig",
+        .description = .{
+            .name = "Xcode Config",
+            .line_comment = .{"//"},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{"xcconfig"},
+        },
+    },
+    .{
+        .id = "xml",
+        .description = .{
+            .name = "XML",
+            .multi_line_comments = .{.{ "<!--", "-->" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{"xml"},
+        },
+    },
+    .{
+        .id = "xsl",
+        .description = .{
+            .name = "XSL",
+            .multi_line_comments = .{.{ "<!--", "-->" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{ "xsl", "xslt" },
+        },
+    },
+    .{
+        .id = "xtend",
+        .description = .{
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" }, .{ "'''", "'''" } },
+            .extensions = .{"xtend"},
+        },
+    },
+    .{
+        .id = "yaml",
+        .description = .{
+            .name = "YAML",
+            .line_comment = .{"#"},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{ "yaml", "yml" },
+        },
+    },
+    .{
+        .id = "zencode",
+        .description = .{
+            .line_comment = .{ "//", "#" },
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .verbatim_quotes = .{ .{ "@\\\"", "\\\"" }, .{ "@'", "'" } },
+            .extensions = .{"zs"},
+        },
+    },
+    .{
+        .id = "zig",
+        .description = .{
+            .line_comment = .{"//"},
+            .quotes = .{.{ "\\\"", "\\\"" }},
+            .extensions = .{"zig"},
+        },
+    },
+    .{
+        .id = "zokrates",
+        .description = .{
+            .name = "ZoKrates",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .extensions = .{"zok"},
+        },
+    },
+    .{
+        .id = "zsh",
+        .description = .{
+            .shebangs = .{"#!/bin/zsh"},
+            .line_comment = .{"#"},
+            .quotes = .{ .{ "\\\"", "\\\"" }, .{ "'", "'" } },
+            .extensions = .{"zsh"},
+        },
+    },
+    .{
+        .id = "gdshader",
+        .description = .{
+            .name = "GDShader",
+            .line_comment = .{"//"},
+            .multi_line_comments = .{.{ "/*", "*/" }},
+            .extensions = .{"gdshader"},
+        },
+    },
+}

@@ -1,3 +1,4 @@
+//! Things copied from std to make them public or changed a little.
 const std = @import("std");
 const Allocator = std.mem.Allocator;
 const fs = std.fs;

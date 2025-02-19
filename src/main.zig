@@ -5,6 +5,8 @@ const indentedWriter = @import("indented_writer.zig").indentedWriter;
 const loc = @import("loc.zig");
 const Tree = @import("tree.zig").Tree;
 const walk = @import("stdx.zig").walk;
+const Language = @import("languages.zig").Language;
+const language_by_extension = @import("languages.zig").language_by_extension;
 
 pub fn main() !void {
     var gpa_state: std.heap.GeneralPurposeAllocator(.{}) = .init;
@@ -62,10 +64,9 @@ pub fn main() !void {
 
     const tree = try getDependencyTree(arena, gpa, dir);
 
+    var bw = std.io.bufferedWriter(std.io.getStdOut().writer());
+    defer bw.flush() catch {};
     const total_stats = stats: {
-        var bw = std.io.bufferedWriter(std.io.getStdOut().writer());
-        defer bw.flush() catch {};
-
         break :stats try printDependency(gpa, bw.writer(), .{
             .absolute_path = real_path,
             .children = &.{.{
@@ -82,19 +83,30 @@ pub fn main() !void {
                 ".zig-cache",
                 "zig-out",
             },
-            .extensions = &.{
-                ".zig",
-            },
         });
     };
-    std.debug.print("Total stats\n", .{});
-    std.debug.print("lines    code     comments blanks\n", .{});
-    std.debug.print("{d:<8} {d:<8} {d:<8} {d:<8}\n", .{
-        total_stats.lines,
-        total_stats.code,
-        total_stats.comments,
-        total_stats.blanks,
-    });
+    var languages_sum: loc.Stats = .empty;
+    for (total_stats.stats()) |language_stat| {
+        languages_sum = languages_sum.add(language_stat);
+    }
+    var grid: @import("GridPrinter.zig") = try .init(gpa, 5, 1);
+    defer grid.deinit();
+
+    try grid.print("Total stats", .{});
+    try grid.print("lines", .{});
+    try grid.print("code", .{});
+    try grid.print("comments", .{});
+    try grid.print("blanks", .{});
+
+    for (std.enums.values(Language), total_stats.stats()) |name, stats| {
+        if (std.meta.eql(stats, .empty)) continue;
+        try grid.print("{s}", .{@tagName(name)});
+        try grid.print("{d}", .{stats.lines});
+        try grid.print("{d}", .{stats.code});
+        try grid.print("{d}", .{stats.comments});
+        try grid.print("{d}", .{stats.blanks});
+    }
+    try grid.flush(bw.writer());
 }
 
 pub fn printHelpAndExit() noreturn {
@@ -128,7 +140,6 @@ const PrintConfig = struct {
         blanks,
     },
     filter_dirs: []const []const u8,
-    extensions: []const []const u8,
 };
 
 fn printDependency(
@@ -137,22 +148,26 @@ fn printDependency(
     dep: Tree.Dependency,
     indent: u16,
     config: PrintConfig,
-) !loc.Stats {
-    var arena_state = std.heap.ArenaAllocator.init(gpa);
+) !loc.MultilanguageStats {
+    var arena_state: std.heap.ArenaAllocator = .init(gpa);
     defer arena_state.deinit();
+    const arena = arena_state.allocator();
 
     var writer_state = indentedWriter(indent, _writer);
     const writer = writer_state.writer();
 
-    const arena = arena_state.allocator();
+    var project_stats: loc.MultilanguageStats = .empty;
 
-    var project_stats: loc.Stats = .empty;
+    var grid: @import("GridPrinter.zig") = try .init(gpa, 5, 1);
+    defer grid.deinit();
 
     for (dep.children) |child| {
         _ = arena_state.reset(.retain_capacity);
+        defer grid.flush(writer) catch {};
 
         const File = struct {
             path: []const u8,
+            language: Language,
             stats: loc.Stats,
         };
         const files_list = files_list: {
@@ -176,16 +191,17 @@ fn printDependency(
                         continue :entry;
                     }
                 }
-                for (config.extensions) |extension| {
-                    if (std.mem.eql(u8, std.fs.path.extension(entry.basename), extension)) {
-                        break;
-                    }
-                } else continue;
-                const file_content = try dep_root_dir.readFileAlloc(gpa, file_name, 1000 * 1000 * 1000);
-                defer gpa.free(file_content);
-                const stats = loc.statsFromSlice(file_content);
-                project_stats = project_stats.add(stats);
-                try files_list.append(gpa, .{ .stats = stats, .path = try arena.dupe(u8, file_name) });
+                const extension = std.fs.path.extension(entry.basename);
+                if (extension.len == 0) continue :entry;
+
+                const language = language_by_extension.get(extension[1..]) orelse continue :entry;
+
+                const stats = loc.statsFromFile(gpa, dep_root_dir, entry.path) catch |e| switch (e) {
+                    error.UnknownLanguage => continue :entry,
+                    else => |other| return other,
+                };
+                project_stats.addStatForLanguage(language, stats);
+                try files_list.append(gpa, .{ .stats = stats, .path = try arena.dupe(u8, file_name), .language = language });
             }
             break :files_list try files_list.toOwnedSlice(gpa);
         };
@@ -203,47 +219,42 @@ fn printDependency(
             }
         }.less);
 
-        const total_text = "total stats";
-        const max_len = max_len: {
-            var max_len: usize = @max(total_text.len, child.import_name.len);
-            if (config.print_files) {
-                for (files_list) |file| {
-                    const file_name = file.path;
-                    max_len = @max(max_len, file_name.len);
-                }
-            }
-            break :max_len max_len;
-        };
         if (config.print_path) {
-            try writer.print("{s}\n", .{child.dependency.absolute_path});
+            try grid.print("{s}\n", .{child.dependency.absolute_path});
         }
         if (config.print_files or config.print_total_for_project) {
-            try writer.print("{s}", .{child.import_name});
-            try writer.writeByteNTimes(' ', max_len - child.import_name.len);
-            try writer.print(" lines    code     comments blanks", .{});
-            try writer.print("\n", .{});
+            try grid.print("{s}", .{child.import_name});
+            try grid.print("lines", .{});
+            try grid.print("code", .{});
+            try grid.print("comments", .{});
+            try grid.print("blanks", .{});
         }
 
-        var total_stats: loc.Stats = .empty;
+        var dependency_stats: std.EnumArray(Language, loc.Stats) = .initFill(.empty);
         for (files_list) |entry| {
             const file_name = entry.path;
             const stats = entry.stats;
             if (config.print_files) {
-                try writer.print("{s}", .{file_name});
-                try writer.writeByteNTimes(' ', max_len - file_name.len + 1);
-                try writer.print("{d:<8} {d:<8} {d:<8} {d:<8}\n", .{ stats.lines, stats.code, stats.comments, stats.blanks });
+                try grid.print("{s}", .{file_name});
+                try grid.print("{d}", .{stats.lines});
+                try grid.print("{d}", .{stats.code});
+                try grid.print("{d}", .{stats.comments});
+                try grid.print("{d}", .{stats.blanks});
             }
-            total_stats = total_stats.add(stats);
+            dependency_stats.set(entry.language, dependency_stats.get(entry.language).add(stats));
         }
         if (config.print_total_for_project) {
-            try writer.print(total_text, .{});
-            try writer.writeByteNTimes(' ', max_len - "total stats".len + 1);
-            try writer.print("{d:<8} {d:<8} {d:<8} {d:<8}\n", .{ total_stats.lines, total_stats.code, total_stats.comments, total_stats.blanks });
+            for (std.enums.values(Language), dependency_stats.values) |name, stats| {
+                if (std.meta.eql(stats, .empty)) continue;
+                try grid.print("{s}", .{@tagName(name)});
+                try grid.print("{d}", .{stats.lines});
+                try grid.print("{d}", .{stats.code});
+                try grid.print("{d}", .{stats.comments});
+                try grid.print("{d}", .{stats.blanks});
+            }
         }
-        if (config.print_files or config.print_total_for_project) {
-            try writer.print("\n", .{});
-        }
-        project_stats = project_stats.add(try printDependency(gpa, _writer, child.dependency, indent + 1, config));
+        const dep_stats = try printDependency(gpa, _writer, child.dependency, indent + 1, config);
+        project_stats.add(dep_stats);
     }
 
     return project_stats;
