@@ -4,7 +4,9 @@ pub fn build(b: *std.Build) void {
     const target = b.standardTargetOptions(.{});
     const optimize = b.standardOptimizeOption(.{});
 
-    const use_llvm = b.option(bool, "use-llvm", "use-llvm") orelse false;
+    // NOTE: no `orelse` here so no arguments would use default settings
+    const use_llvm = b.option(bool, "use-llvm", "use-llvm");
+    const use_lld = b.option(bool, "use-lld", "use-lld");
 
     const exe_mod = b.createModule(.{
         .root_source_file = b.path("src/main.zig"),
@@ -16,7 +18,7 @@ pub fn build(b: *std.Build) void {
         .name = "forestz",
         .root_module = exe_mod,
         .use_llvm = use_llvm,
-        .use_lld = use_llvm,
+        .use_lld = use_lld,
     });
 
     b.installArtifact(exe);
