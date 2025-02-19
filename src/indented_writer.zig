@@ -1,6 +1,7 @@
 const std = @import("std");
 const io = std.io;
 
+/// Prints `indent_level` spaces before first write and before any write
 pub fn IndentedWriter(comptime WriterType: type) type {
     return struct {
         child_writer: WriterType,
@@ -66,8 +67,13 @@ test "Some indent" {
     var buffer: std.ArrayList(u8) = .init(std.testing.allocator);
     defer buffer.deinit();
 
-    var indented_writer = indentedWriter(10, buffer.writer());
+    var indented_writer = indentedWriter(2, buffer.writer());
     try indented_writer.writer().print("Hello\nworld!\n", .{});
 
-    try std.testing.expectEqualSlices(u8, " " ** 10 ++ "Hello\n" ++ " " ** 10 ++ "world!\n", buffer.items);
+    const expected =
+        \\  Hello
+        \\  world!
+        \\
+    ;
+    try std.testing.expectEqualSlices(u8, expected, buffer.items);
 }

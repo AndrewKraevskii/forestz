@@ -20,42 +20,68 @@ pub fn main() !void {
         @panic("no program path given");
     }
 
-    var path: []const u8 = ".";
+    var path: ?[]const u8 = null;
+    var sort_by: ?@FieldType(PrintConfig, "sort_by") = null;
+    var print_files: ?bool = null;
+    var print_total_for_project: ?bool = null;
 
-    for (args[1..]) |arg| {
-        if (std.mem.eql(u8, arg, "--files") or std.mem.eql(u8, arg, "-f")) {
-            // config.print_files = true;
+    var index: usize = 1;
+    while (index < args.len) : (index += 1) {
+        if (std.mem.startsWith(u8, args[index], "--sort=")) {
+            sort_by = std.meta.stringToEnum(@FieldType(PrintConfig, "sort_by"), args[index]["--sort=".len..]) orelse {
+                std.debug.print("Unexpected sort option. Options:", .{});
+                for (std.enums.values(@FieldType(PrintConfig, "sort_by"))) |variant| {
+                    std.debug.print(" {s}", .{@tagName(variant)});
+                }
+                std.debug.print("\n", .{});
+                return;
+            };
+        } else if (std.mem.eql(u8, args[index], "--files") or std.mem.eql(u8, args[index], "-f")) {
+            print_files = true;
+        } else if (std.mem.eql(u8, args[index], "--project-total")) {
+            print_total_for_project = true;
+        } else if (std.mem.startsWith(u8, args[index], "--")) {
+            std.debug.print("Unexpected flag\n", .{});
+            return;
         } else {
-            path = arg;
+            path = args[index];
         }
     }
 
-    var dir = try std.fs.cwd().openDir(path, .{ .iterate = true });
+    var dir = try std.fs.cwd().openDir(path orelse ".", .{ .iterate = true });
     defer dir.close();
 
     const tree = try getDependencyTree(arena, gpa, dir);
 
     try printDependency(gpa, tree.root, 0, .{
-        .print_files = true,
-        .print_total_for_project = true,
+        .print_files = print_files orelse false,
+        .sort_by = sort_by orelse .name,
+        .print_total_for_project = print_total_for_project orelse false,
+        .filter_dirs = &.{
+            ".zig-cache",
+            "zig-out",
+        },
     });
 }
+
+const PrintConfig = struct {
+    print_files: bool,
+    print_total_for_project: bool,
+    sort_by: enum {
+        name,
+        lines,
+        code,
+        comments,
+        blanks,
+    },
+    filter_dirs: []const []const u8,
+};
 
 fn printDependency(
     gpa: std.mem.Allocator,
     dep: Tree.Dependency,
     indent: u16,
-    config: struct {
-        print_files: bool = false,
-        print_total_for_project: bool = false,
-        // sort_by: enum {
-        //     name,
-        //     lines,
-        //     code,
-        //     comments,
-        //     blanks,
-        // } = .name,
-    },
+    config: PrintConfig,
 ) !void {
     const stdout = std.io.getStdOut().writer();
     var writer_state = indentedWriter(indent, stdout);
@@ -70,31 +96,37 @@ fn printDependency(
         const total_text = "total stats";
 
         const max_len = max_len: {
-            var max_len: usize = total_text.len;
+            var max_len: usize = @max(total_text.len, child.import_name.len);
             if (config.print_files) {
-                var iter = dep_root_dir.iterateAssumeFirstIteration();
+                var iter = try dep_root_dir.walk(gpa);
+                defer iter.deinit();
                 while (try iter.next()) |entry| {
                     if (entry.kind != .file) continue;
-                    max_len = @max(max_len, entry.name.len);
+                    const file_name = entry.path;
+                    max_len = @max(max_len, file_name.len);
                 }
             }
             break :max_len max_len;
         };
-        try writer.print("{s}", .{child.import_name});
         if (config.print_files or config.print_total_for_project) {
-            try writer.writeByteNTimes(' ', max_len);
+            try writer.print("{s}", .{child.import_name});
+            try writer.writeByteNTimes(' ', max_len - child.import_name.len);
             try writer.print(" lines    code     comments blanks\n", .{});
         }
-        var iter = dep_root_dir.iterate();
+
+        var iter = try dep_root_dir.walk(gpa);
+        defer iter.deinit();
+
         var total_stats: loc.Stats = .empty;
         while (try iter.next()) |entry| {
             if (entry.kind != .file) continue;
-            const file_content = try dep_root_dir.readFileAlloc(gpa, entry.name, 1000 * 1000 * 1000);
+            const file_name = entry.path;
+            const file_content = try dep_root_dir.readFileAlloc(gpa, file_name, 1000 * 1000 * 1000);
             defer gpa.free(file_content);
             const stats = loc.statsFromSlice(file_content);
             if (config.print_files) {
-                try writer.print("{s}", .{entry.name});
-                try writer.writeByteNTimes(' ', max_len - entry.name.len + 1);
+                try writer.print("{s}", .{file_name});
+                try writer.writeByteNTimes(' ', max_len - file_name.len + 1);
                 try writer.print("{d:<8} {d:<8} {d:<8} {d:<8}\n", .{ stats.lines, stats.code, stats.comments, stats.blanks });
             }
             total_stats = total_stats.add(stats);
@@ -104,6 +136,9 @@ fn printDependency(
             try writer.writeByteNTimes(' ', max_len - "total stats".len + 1);
             try writer.print("{d:<8} {d:<8} {d:<8} {d:<8}\n", .{ total_stats.lines, total_stats.code, total_stats.comments, total_stats.blanks });
         }
+        // } else {
+        try writer.print("{s}\n", .{child.import_name});
+        // }
         try printDependency(gpa, child.dependency, indent + 1, config);
     }
 }
