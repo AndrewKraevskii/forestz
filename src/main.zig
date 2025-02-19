@@ -23,6 +23,7 @@ pub fn main() !void {
     var path: ?[]const u8 = null;
     var sort_by: ?@FieldType(PrintConfig, "sort_by") = null;
     var print_files: ?bool = null;
+    var print_path: ?bool = null;
     var print_total_for_project: ?bool = null;
 
     var index: usize = 1;
@@ -40,6 +41,8 @@ pub fn main() !void {
             print_files = true;
         } else if (std.mem.eql(u8, args[index], "--project-total")) {
             print_total_for_project = true;
+        } else if (std.mem.eql(u8, args[index], "--project-path")) {
+            print_path = true;
         } else if (std.mem.eql(u8, args[index], "--help")) {
             printHelpAndExit();
         } else if (std.mem.startsWith(u8, args[index], "--")) {
@@ -61,6 +64,7 @@ pub fn main() !void {
     const total_stats = stats: {
         var bw = std.io.bufferedWriter(std.io.getStdOut().writer());
         defer bw.flush() catch {};
+
         break :stats try printDependency(gpa, bw.writer(), .{
             .absolute_path = real_path,
             .children = &.{.{
@@ -70,6 +74,7 @@ pub fn main() !void {
             .name = null,
         }, 0, .{
             .print_files = print_files orelse false,
+            .print_path = print_path orelse false,
             .sort_by = sort_by orelse .name,
             .print_total_for_project = print_total_for_project orelse false,
             .filter_dirs = &.{
@@ -97,6 +102,7 @@ pub fn printHelpAndExit() noreturn {
         \\
         \\Flags:
         \\ --project-total   print stats for each project
+        \\ --project-path    print absolute path for each project
         \\ --files           print induvidual file stats
         \\ --sort=<query>    sort files when printing file by <query> where <query> is one of
         \\                          name
@@ -110,6 +116,7 @@ pub fn printHelpAndExit() noreturn {
 }
 
 const PrintConfig = struct {
+    print_path: bool,
     print_files: bool,
     print_total_for_project: bool,
     sort_by: enum {
@@ -205,10 +212,14 @@ fn printDependency(
             }
             break :max_len max_len;
         };
+        if (config.print_path) {
+            try writer.print("{s}\n", .{child.dependency.absolute_path});
+        }
         if (config.print_files or config.print_total_for_project) {
             try writer.print("{s}", .{child.import_name});
             try writer.writeByteNTimes(' ', max_len - child.import_name.len);
-            try writer.print(" lines    code     comments blanks\n", .{});
+            try writer.print(" lines    code     comments blanks", .{});
+            try writer.print("\n", .{});
         }
 
         var total_stats: loc.Stats = .empty;
