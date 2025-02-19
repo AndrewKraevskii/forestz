@@ -10,6 +10,14 @@ cd forestz
 zig build run -- /path/to/project
 ```
 
+## If you want fast version
+```sh
+zig build -Duse-llvm -Doptimize=ReleaseFast
+./zig-out/bin/forestz -- /path/to/project
+```
+
+
+
 ## Supported languages:
 - zig
 
