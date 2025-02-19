@@ -58,25 +58,29 @@ pub fn main() !void {
     var real_path_buffer: [std.fs.max_path_bytes]u8 = undefined;
     const real_path = try std.fs.cwd().realpath(".", &real_path_buffer);
 
-    const total_stats = try printDependency(gpa, .{
-        .absolute_path = real_path,
-        .children = &.{.{
-            .import_name = std.fs.path.basename(real_path),
-            .dependency = tree.root,
-        }},
-        .name = null,
-    }, 0, .{
-        .print_files = print_files orelse false,
-        .sort_by = sort_by orelse .name,
-        .print_total_for_project = print_total_for_project orelse false,
-        .filter_dirs = &.{
-            ".zig-cache",
-            "zig-out",
-        },
-        .extensions = &.{
-            ".zig",
-        },
-    });
+    const total_stats = stats: {
+        var bw = std.io.bufferedWriter(std.io.getStdOut().writer());
+        defer bw.flush() catch {};
+        break :stats try printDependency(gpa, bw.writer(), .{
+            .absolute_path = real_path,
+            .children = &.{.{
+                .import_name = std.fs.path.basename(real_path),
+                .dependency = tree.root,
+            }},
+            .name = null,
+        }, 0, .{
+            .print_files = print_files orelse false,
+            .sort_by = sort_by orelse .name,
+            .print_total_for_project = print_total_for_project orelse false,
+            .filter_dirs = &.{
+                ".zig-cache",
+                "zig-out",
+            },
+            .extensions = &.{
+                ".zig",
+            },
+        });
+    };
     std.debug.print("Total stats\n", .{});
     std.debug.print("lines    code     comments blanks\n", .{});
     std.debug.print("{d:<8} {d:<8} {d:<8} {d:<8}\n", .{
@@ -100,6 +104,7 @@ pub fn printHelpAndExit() noreturn {
         \\                          lines
         \\                          blanks
         \\                          comments
+        \\
     , .{});
     std.process.exit(0);
 }
@@ -120,6 +125,7 @@ const PrintConfig = struct {
 
 fn printDependency(
     gpa: std.mem.Allocator,
+    _writer: anytype,
     dep: Tree.Dependency,
     indent: u16,
     config: PrintConfig,
@@ -127,11 +133,10 @@ fn printDependency(
     var arena_state = std.heap.ArenaAllocator.init(gpa);
     defer arena_state.deinit();
 
-    const arena = arena_state.allocator();
-
-    const stdout = std.io.getStdOut().writer();
-    var writer_state = indentedWriter(indent, stdout);
+    var writer_state = indentedWriter(indent, _writer);
     const writer = writer_state.writer();
+
+    const arena = arena_state.allocator();
 
     var project_stats: loc.Stats = .empty;
 
@@ -225,7 +230,7 @@ fn printDependency(
         if (config.print_files or config.print_total_for_project) {
             try writer.print("\n", .{});
         }
-        project_stats = project_stats.add(try printDependency(gpa, child.dependency, indent + 1, config));
+        project_stats = project_stats.add(try printDependency(gpa, _writer, child.dependency, indent + 1, config));
     }
 
     return project_stats;

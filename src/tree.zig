@@ -26,7 +26,7 @@ pub fn getDependencyTree(
     }
 
     return .{
-        .root = try state.innerPrintZigFiles(dir, 0),
+        .root = try state.innerBuildTree(dir, 0),
     };
 }
 
@@ -72,7 +72,7 @@ const TreeBuilder = struct {
     visited_projects: std.StringArrayHashMapUnmanaged(void),
     cache_path: []const u8,
 
-    fn innerPrintZigFiles(
+    fn innerBuildTree(
         state: *TreeBuilder,
         dir: std.fs.Dir,
         depth: u16,
@@ -105,7 +105,7 @@ const TreeBuilder = struct {
 
             deps_array.appendAssumeCapacity(.{
                 .import_name = try state.tree_arena.dupe(u8, key),
-                .dependency = try state.innerPrintZigFiles(
+                .dependency = try state.innerBuildTree(
                     dep_dir,
                     depth + 1,
                 ),
