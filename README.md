@@ -25,3 +25,10 @@ zig build -Duse-llvm -Doptimize=ReleaseFast
 - rust
 - go
 - js (node/deno/bun)
+
+
+## TODO
+- [ ] Nicer ui for case of printing lines for projects but not lines.
+- [ ] sort projects by lines not just files inside of them.
+- [ ] show lines like graph dust-du style.
+- [ ] Multithreading? Probably not to hard but its pretty fast as is.
