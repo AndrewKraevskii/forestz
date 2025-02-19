@@ -1,5 +1,6 @@
 const std = @import("std");
 const Allocator = std.mem.Allocator;
+
 const resolveGlobalCacheDir = @import("stdx.zig").resolveGlobalCacheDir;
 
 pub const Config = struct {

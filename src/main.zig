@@ -1,9 +1,10 @@
 const std = @import("std");
 
 const getDependencyTree = @import("tree.zig").getDependencyTree;
-const Tree = @import("tree.zig").Tree;
-const loc = @import("loc.zig");
 const indentedWriter = @import("indented_writer.zig").indentedWriter;
+const loc = @import("loc.zig");
+const Tree = @import("tree.zig").Tree;
+const walk = @import("stdx.zig").walk;
 
 pub fn main() !void {
     var gpa_state: std.heap.GeneralPurposeAllocator(.{}) = .init;
@@ -163,7 +164,7 @@ fn printDependency(
             var files_list: std.ArrayListUnmanaged(File) = .empty;
             defer files_list.deinit(gpa);
 
-            var iter = try dep_root_dir.walk(gpa);
+            var iter = try walk(dep_root_dir, gpa);
             defer iter.deinit();
 
             entry: while (try iter.next()) |entry| {
@@ -171,6 +172,7 @@ fn printDependency(
                 if (entry.kind != .file) continue;
                 for (config.filter_dirs) |filter_dir| {
                     if (std.mem.containsAtLeast(u8, file_name, 1, filter_dir)) {
+                        iter.exitDir();
                         continue :entry;
                     }
                 }
