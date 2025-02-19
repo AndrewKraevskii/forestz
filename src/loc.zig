@@ -6,7 +6,7 @@ pub const Stats = struct {
     comments: u64,
     blanks: u64,
 
-    pub const zero: Stats = .{
+    pub const empty: Stats = .{
         .lines = 0,
         .code = 0,
         .comments = 0,
@@ -51,10 +51,4 @@ pub fn statsFromSlice(slice: []const u8) Stats {
         .comments = comments,
         .blanks = blanks,
     };
-}
-
-pub fn fileStats(gpa: std.mem.Allocator, dir: std.fs.Dir, path: []const u8) !Stats {
-    const content = try dir.readFileAlloc(gpa, path, 1000 * 1000 * 1000);
-    defer gpa.free(content);
-    return statsFromSlice(content);
 }

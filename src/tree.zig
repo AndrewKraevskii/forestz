@@ -10,22 +10,12 @@ pub const Config = struct {
     },
 };
 
-pub fn printZigFiles(gpa: Allocator, dir: std.fs.Dir) !void {
-    var arena = std.heap.ArenaAllocator.init(gpa);
-    defer arena.deinit();
-
-    const tree = try getDependencyTree(arena.allocator(), gpa, dir);
-    const out = std.io.getStdOut().writer();
-
-    try tree.dump(out);
-}
-
 pub fn getDependencyTree(
     arena: Allocator,
     gpa: Allocator,
     dir: std.fs.Dir,
 ) !Tree {
-    var state: State = .{
+    var state: TreeBuilder = .{
         .cache_path = try resolveGlobalCacheDir(arena),
         .gpa = gpa,
         .tree_arena = arena,
@@ -40,22 +30,23 @@ pub fn getDependencyTree(
     };
 }
 
-const Tree = struct {
+pub const Tree = struct {
     root: Dependency,
 
-    const Dependency = struct {
+    pub const Dependency = struct {
         absolute_path: []const u8,
         /// Name is null if build.zig.zon is absent
         name: ?[]const u8,
         children: []Child,
 
         const Child = struct {
-            name: []const u8,
-            dep: Dependency,
+            /// name specified in build.zig.zon as name of module
+            import_name: []const u8,
+            dependency: Dependency,
 
             pub fn dump(c: Child, writer: anytype, indent: u16) @TypeOf(writer).Error!void {
-                try printIndented(writer, "{s}\n", .{c.name}, indent);
-                for (c.dep.children) |child| {
+                try printIndented(writer, "{s}\n", .{c.import_name}, indent);
+                for (c.dependency.children) |child| {
                     try child.dump(writer, indent + 1);
                 }
             }
@@ -65,29 +56,31 @@ const Tree = struct {
             return if (d.name) |name| name else std.fs.path.basename(d.absolute_path);
         }
     };
+
     pub fn dump(t: Tree, writer: anytype) @TypeOf(writer).Error!void {
         try printIndented(writer, "{s}\n", .{t.root.displayName()}, 0);
+
         for (t.root.children) |child| {
             try child.dump(writer, 1);
         }
     }
 };
 
-const State = struct {
+const TreeBuilder = struct {
     gpa: Allocator,
     tree_arena: Allocator,
     visited_projects: std.StringArrayHashMapUnmanaged(void),
     cache_path: []const u8,
 
     fn innerPrintZigFiles(
-        state: *State,
+        state: *TreeBuilder,
         dir: std.fs.Dir,
         depth: u16,
     ) !Tree.Dependency {
         var arena = std.heap.ArenaAllocator.init(state.gpa);
         defer arena.deinit();
         const full_path = try dir.realpathAlloc(state.tree_arena, ".");
-        const result = readBuildZigZon(arena.allocator(), dir, "build.zig.zon") catch |e| switch (e) {
+        const result = readBuildZigZon(arena.allocator(), dir) catch |e| switch (e) {
             error.FileNotFound => return .{
                 .absolute_path = full_path,
                 .name = null,
@@ -111,8 +104,8 @@ const State = struct {
             defer dep_dir.close();
 
             deps_array.appendAssumeCapacity(.{
-                .name = try state.tree_arena.dupe(u8, key),
-                .dep = try state.innerPrintZigFiles(
+                .import_name = try state.tree_arena.dupe(u8, key),
+                .dependency = try state.innerPrintZigFiles(
                     dep_dir,
                     depth + 1,
                 ),
@@ -144,8 +137,8 @@ const BuildZigZon = struct {
     };
 };
 
-fn readBuildZigZon(arena: Allocator, dir: std.fs.Dir, path: []const u8) !BuildZigZon {
-    const content = try dir.readFileAllocOptions(arena, path, 1000 * 1000 * 1000, null, 1, 0);
+fn readBuildZigZon(arena: Allocator, dir: std.fs.Dir) !BuildZigZon {
+    const content = try dir.readFileAllocOptions(arena, "build.zig.zon", 1000 * 1000 * 1000, null, 1, 0);
 
     const ast = try std.zig.Ast.parse(arena, content, .zon);
     const zoir = try std.zig.ZonGen.generate(arena, ast, .{ .parse_str_lits = true });
