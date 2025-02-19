@@ -37,7 +37,7 @@ pub const Tree = struct {
         absolute_path: []const u8,
         /// Name is null if build.zig.zon is absent
         name: ?[]const u8,
-        children: []Child,
+        children: []const Child,
 
         const Child = struct {
             /// name specified in build.zig.zon as name of module

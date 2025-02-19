@@ -45,6 +45,8 @@ pub fn statsFromSlice(slice: []const u8) Stats {
         code += 1;
     }
 
+    std.debug.assert(lines == code + comments + blanks);
+
     return .{
         .lines = lines,
         .code = code,
