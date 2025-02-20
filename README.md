@@ -18,17 +18,21 @@ zig build -Duse-llvm -Doptimize=ReleaseFast
 
 
 
-## Supported languages:
-- zig
+## Supported build systems:
+- build zig
 
-## Planned languages:
-- rust
+## Planned build systems:
+- cargo (rust)
 - go
-- js (node/deno/bun)
-
+- node/deno/bun (js)
 
 ## TODO
-- [ ] Nicer ui for case of printing lines for projects but not lines.
+- [ ] avoid counting same files twice for dependenices inside of directory.
+- [ ] add directory's filtering options.
+- [ ] add language filtering options.
+- [ ] sort also languages.
+- [ ] comment detection for non zig not working.
+- [ ] use rich text output for better visual clarity.
 - [ ] sort projects by lines not just files inside of them.
 - [ ] show lines like graph dust-du style.
 - [ ] Multithreading? Probably not to hard but its pretty fast as is.
