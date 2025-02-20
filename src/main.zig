@@ -162,95 +162,109 @@ fn printDependency(
     defer grid.deinit();
 
     for (dep.children) |child| {
-        _ = arena_state.reset(.retain_capacity);
-        defer grid.flush(writer) catch {};
+        {
+            _ = arena_state.reset(.retain_capacity);
+            defer grid.flush(writer) catch {};
 
-        const File = struct {
-            path: []const u8,
-            language: Language,
-            stats: loc.Stats,
-        };
-        const files_list = files_list: {
-            var dep_root_dir = try std.fs.openDirAbsolute(child.dependency.absolute_path, .{
-                .iterate = true,
-            });
-            defer dep_root_dir.close();
+            const File = struct {
+                path: []const u8,
+                language: Language,
+                stats: loc.Stats,
+            };
+            const files_list = files_list: {
+                var dep_root_dir = try std.fs.openDirAbsolute(child.dependency.absolute_path, .{
+                    .iterate = true,
+                });
+                defer dep_root_dir.close();
 
-            var files_list: std.ArrayListUnmanaged(File) = .empty;
-            defer files_list.deinit(gpa);
+                var files_list: std.ArrayListUnmanaged(File) = .empty;
+                defer files_list.deinit(gpa);
 
-            var iter = try walk(dep_root_dir, gpa);
-            defer iter.deinit();
+                var iter = try walk(dep_root_dir, gpa);
+                defer iter.deinit();
 
-            entry: while (try iter.next()) |entry| {
-                const file_name = entry.path;
-                if (entry.kind != .file) continue;
-                for (config.filter_dirs) |filter_dir| {
-                    if (std.mem.containsAtLeast(u8, file_name, 1, filter_dir)) {
-                        iter.exitDir();
-                        continue :entry;
+                entry: while (try iter.next()) |entry| {
+                    const file_name = entry.path;
+                    if (entry.kind != .file) continue;
+                    for (config.filter_dirs) |filter_dir| {
+                        if (std.mem.containsAtLeast(u8, file_name, 1, filter_dir)) {
+                            iter.exitDir();
+                            continue :entry;
+                        }
                     }
+                    const extension = std.fs.path.extension(entry.basename);
+                    if (extension.len == 0) continue :entry;
+
+                    const language = language_by_extension.get(extension[1..]) orelse continue :entry;
+
+                    const stats = loc.statsFromFile(gpa, dep_root_dir, entry.path) catch |e| switch (e) {
+                        error.UnknownLanguage => continue :entry,
+                        else => |other| return other,
+                    };
+                    project_stats.addStatForLanguage(language, stats);
+                    try files_list.append(gpa, .{ .stats = stats, .path = try arena.dupe(u8, file_name), .language = language });
                 }
-                const extension = std.fs.path.extension(entry.basename);
-                if (extension.len == 0) continue :entry;
+                break :files_list try files_list.toOwnedSlice(gpa);
+            };
+            defer gpa.free(files_list);
 
-                const language = language_by_extension.get(extension[1..]) orelse continue :entry;
+            std.mem.sort(File, files_list, config.sort_by, struct {
+                fn less(ctx: @TypeOf(config.sort_by), lhs: File, rhs: File) bool {
+                    return switch (ctx) {
+                        .name => std.mem.lessThan(u8, lhs.path, rhs.path),
+                        .lines => lhs.stats.lines < rhs.stats.lines,
+                        .code => lhs.stats.code < rhs.stats.code,
+                        .comments => lhs.stats.comments < rhs.stats.comments,
+                        .blanks => lhs.stats.blanks < rhs.stats.blanks,
+                    };
+                }
+            }.less);
 
-                const stats = loc.statsFromFile(gpa, dep_root_dir, entry.path) catch |e| switch (e) {
-                    error.UnknownLanguage => continue :entry,
-                    else => |other| return other,
-                };
-                project_stats.addStatForLanguage(language, stats);
-                try files_list.append(gpa, .{ .stats = stats, .path = try arena.dupe(u8, file_name), .language = language });
+            if (config.print_path) {
+                try grid.print("{s}", .{child.dependency.absolute_path});
+                try grid.lineBreak();
             }
-            break :files_list try files_list.toOwnedSlice(gpa);
-        };
-        defer gpa.free(files_list);
-
-        std.mem.sort(File, files_list, config.sort_by, struct {
-            fn less(ctx: @TypeOf(config.sort_by), lhs: File, rhs: File) bool {
-                return switch (ctx) {
-                    .name => std.mem.lessThan(u8, lhs.path, rhs.path),
-                    .lines => lhs.stats.lines < rhs.stats.lines,
-                    .code => lhs.stats.code < rhs.stats.code,
-                    .comments => lhs.stats.comments < rhs.stats.comments,
-                    .blanks => lhs.stats.blanks < rhs.stats.blanks,
-                };
+            if (config.print_files or config.print_total_for_project) {
+                try grid.print("{s}", .{child.import_name});
+                try grid.print("lines", .{});
+                try grid.print("code", .{});
+                try grid.print("comments", .{});
+                try grid.print("blanks", .{});
             }
-        }.less);
 
-        if (config.print_path) {
-            try grid.print("{s}\n", .{child.dependency.absolute_path});
-        }
-        if (config.print_files or config.print_total_for_project) {
-            try grid.print("{s}", .{child.import_name});
-            try grid.print("lines", .{});
-            try grid.print("code", .{});
-            try grid.print("comments", .{});
-            try grid.print("blanks", .{});
-        }
-
-        var dependency_stats: std.EnumArray(Language, loc.Stats) = .initFill(.empty);
-        for (files_list) |entry| {
-            const file_name = entry.path;
-            const stats = entry.stats;
-            if (config.print_files) {
-                try grid.print("{s}", .{file_name});
-                try grid.print("{d}", .{stats.lines});
-                try grid.print("{d}", .{stats.code});
-                try grid.print("{d}", .{stats.comments});
-                try grid.print("{d}", .{stats.blanks});
+            var dependency_stats: std.EnumArray(Language, loc.Stats) = .initFill(.empty);
+            for (files_list) |entry| {
+                const file_name = entry.path;
+                const stats = entry.stats;
+                if (config.print_files) {
+                    try grid.print("{s}", .{file_name});
+                    try grid.print("{d}", .{stats.lines});
+                    try grid.print("{d}", .{stats.code});
+                    try grid.print("{d}", .{stats.comments});
+                    try grid.print("{d}", .{stats.blanks});
+                }
+                dependency_stats.set(entry.language, dependency_stats.get(entry.language).add(stats));
             }
-            dependency_stats.set(entry.language, dependency_stats.get(entry.language).add(stats));
-        }
-        if (config.print_total_for_project) {
-            for (std.enums.values(Language), dependency_stats.values) |name, stats| {
-                if (std.meta.eql(stats, .empty)) continue;
-                try grid.print("{s}", .{@tagName(name)});
-                try grid.print("{d}", .{stats.lines});
-                try grid.print("{d}", .{stats.code});
-                try grid.print("{d}", .{stats.comments});
-                try grid.print("{d}", .{stats.blanks});
+            if (config.print_total_for_project) {
+                if (config.print_files) {
+                    try grid.lineBreak();
+                    try grid.print("By language", .{});
+                    try grid.print("lines", .{});
+                    try grid.print("code", .{});
+                    try grid.print("comments", .{});
+                    try grid.print("blanks", .{});
+                }
+                for (std.enums.values(Language), dependency_stats.values) |name, stats| {
+                    if (std.meta.eql(stats, .empty)) continue;
+                    try grid.print("{s}", .{@tagName(name)});
+                    try grid.print("{d}", .{stats.lines});
+                    try grid.print("{d}", .{stats.code});
+                    try grid.print("{d}", .{stats.comments});
+                    try grid.print("{d}", .{stats.blanks});
+                }
+            }
+            if (config.print_total_for_project or config.print_files) {
+                try grid.lineBreak();
             }
         }
         const dep_stats = try printDependency(gpa, _writer, child.dependency, indent + 1, config);

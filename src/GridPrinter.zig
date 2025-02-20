@@ -58,6 +58,11 @@ pub fn flush(self: *GridPrinter, writer: anytype) !void {
     }
 }
 
+pub fn lineBreak(self: *GridPrinter) std.mem.Allocator.Error!void {
+    const written_columns = self.cells.items.len % self.columns_size.len;
+    try self.cells.appendNTimes(self.gpa, 0, self.columns_size.len - written_columns);
+}
+
 pub fn deinit(self: *GridPrinter) void {
     self.buffer.deinit(self.gpa);
     self.cells.deinit(self.gpa);
