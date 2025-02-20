@@ -23,6 +23,35 @@ pub const MultilanguageStats = struct {
         return &self.stats_per_language.values;
     }
 
+    pub fn skipZeroIter(self: *const MultilanguageStats) SkipZeroIterator {
+        return .{
+            .multilanguage_stats = self,
+            .index = 0,
+        };
+    }
+
+    const SkipZeroIterator = struct {
+        multilanguage_stats: *const MultilanguageStats,
+        index: std.math.IntFittingRange(0, @typeInfo(Language).@"enum".fields.len),
+
+        pub fn next(self: *SkipZeroIterator) ?struct { language: Language, stats: Stats } {
+            while (true) {
+                if (self.index == self.multilanguage_stats.stats_per_language.values.len) return null;
+                defer self.index += 1;
+
+                if (std.meta.eql(self.multilanguage_stats.stats_per_language.values[self.index], .empty)) continue;
+
+                break;
+            }
+            const stat = self.multilanguage_stats.stats_per_language.values[self.index - 1];
+
+            return .{
+                .language = std.enums.values(Language)[self.index - 1],
+                .stats = stat,
+            };
+        }
+    };
+
     const languages = std.enums.values(Language);
 };
 

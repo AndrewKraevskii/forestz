@@ -98,13 +98,13 @@ pub fn main() !void {
     try grid.print("comments", .{});
     try grid.print("blanks", .{});
 
-    for (std.enums.values(Language), total_stats.stats()) |name, stats| {
-        if (std.meta.eql(stats, .empty)) continue;
-        try grid.print("{s}", .{@tagName(name)});
-        try grid.print("{d}", .{stats.lines});
-        try grid.print("{d}", .{stats.code});
-        try grid.print("{d}", .{stats.comments});
-        try grid.print("{d}", .{stats.blanks});
+    var iter = total_stats.skipZeroIter();
+    while (iter.next()) |entry| {
+        try grid.print("{s}", .{@tagName(entry.language)});
+        try grid.print("{d}", .{entry.stats.lines});
+        try grid.print("{d}", .{entry.stats.code});
+        try grid.print("{d}", .{entry.stats.comments});
+        try grid.print("{d}", .{entry.stats.blanks});
     }
     try grid.flush(bw.writer());
 }
@@ -232,7 +232,7 @@ fn printDependency(
                 try grid.print("blanks", .{});
             }
 
-            var dependency_stats: std.EnumArray(Language, loc.Stats) = .initFill(.empty);
+            var dependency_stats: loc.MultilanguageStats = .empty;
             for (files_list) |entry| {
                 const file_name = entry.path;
                 const stats = entry.stats;
@@ -243,7 +243,7 @@ fn printDependency(
                     try grid.print("{d}", .{stats.comments});
                     try grid.print("{d}", .{stats.blanks});
                 }
-                dependency_stats.set(entry.language, dependency_stats.get(entry.language).add(stats));
+                dependency_stats.addStatForLanguage(entry.language, stats);
             }
             if (config.print_total_for_project) {
                 if (config.print_files) {
@@ -254,8 +254,10 @@ fn printDependency(
                     try grid.print("comments", .{});
                     try grid.print("blanks", .{});
                 }
-                for (std.enums.values(Language), dependency_stats.values) |name, stats| {
-                    if (std.meta.eql(stats, .empty)) continue;
+                var iter = dependency_stats.skipZeroIter();
+                while (iter.next()) |entry| {
+                    const stats = entry.stats;
+                    const name = entry.language;
                     try grid.print("{s}", .{@tagName(name)});
                     try grid.print("{d}", .{stats.lines});
                     try grid.print("{d}", .{stats.code});
