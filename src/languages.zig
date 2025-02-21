@@ -28,11 +28,11 @@ const LanguageWithName = struct {
 
 const languages: []const LanguageWithName = @import("languages.zon");
 
-pub const language_by_extension = blk: {
+pub const by_extension: std.StaticStringMap(Language) = blk: {
     @setEvalBranchQuota(2000);
 
     var extensions: []const struct { []const u8, Language } = &.{};
-    var mutable_map = map;
+    var mutable_map = info;
     var iter = mutable_map.iterator();
 
     while (iter.next()) |entry| {
@@ -44,19 +44,17 @@ pub const language_by_extension = blk: {
         }
     }
 
-    const result: std.StaticStringMap(Language) = .initComptime(extensions);
-
-    break :blk result;
+    break :blk .initComptime(extensions);
 };
 
-test {
-    try std.testing.expectEqual(language_by_extension.get("zig"), .zig);
-    try std.testing.expectEqual(language_by_extension.get("c++"), .cpp);
-    try std.testing.expectEqual(language_by_extension.get("cpp"), .cpp);
-    try std.testing.expectEqual(language_by_extension.get("c"), .c);
+test by_extension {
+    try std.testing.expectEqual(by_extension.get("zig"), .zig);
+    try std.testing.expectEqual(by_extension.get("c++"), .cpp);
+    try std.testing.expectEqual(by_extension.get("cpp"), .cpp);
+    try std.testing.expectEqual(by_extension.get("c"), .c);
 }
 
-pub const map: std.EnumArray(
+pub const info: std.EnumArray(
     Language,
     Description,
 ) = blk: {
@@ -92,3 +90,10 @@ pub const max_language_name = blk: {
 
     break :blk max;
 };
+
+test {
+    _ = info;
+    _ = max_language_name;
+    _ = by_extension;
+    _ = Language;
+}

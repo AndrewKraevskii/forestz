@@ -1,2 +1,8 @@
+# zig
 .zig-cache/
 zig-out/
+
+# perf
+flamegraph.svg
+perf.data
+perf.data.old

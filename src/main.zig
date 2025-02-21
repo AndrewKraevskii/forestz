@@ -6,7 +6,7 @@ const loc = @import("loc.zig");
 const Tree = @import("tree.zig").Tree;
 const walk = @import("stdx.zig").walk;
 const Language = @import("languages.zig").Language;
-const language_by_extension = @import("languages.zig").language_by_extension;
+const language_by_extension = @import("languages.zig").by_extension;
 
 pub fn main() !void {
     var gpa_state: std.heap.GeneralPurposeAllocator(.{}) = .init;
@@ -101,7 +101,7 @@ pub fn main() !void {
     var iter = total_stats.skipZeroIter();
     while (iter.next()) |entry| {
         try grid.print("{s}", .{@tagName(entry.language)});
-        try grid.print("{d}", .{entry.stats.lines});
+        try grid.print("{d}", .{entry.stats.lines()});
         try grid.print("{d}", .{entry.stats.code});
         try grid.print("{d}", .{entry.stats.comments});
         try grid.print("{d}", .{entry.stats.blanks});
@@ -212,7 +212,7 @@ fn printDependency(
                 fn less(ctx: @TypeOf(config.sort_by), lhs: File, rhs: File) bool {
                     return switch (ctx) {
                         .name => std.mem.lessThan(u8, lhs.path, rhs.path),
-                        .lines => lhs.stats.lines < rhs.stats.lines,
+                        .lines => lhs.stats.lines() < rhs.stats.lines(),
                         .code => lhs.stats.code < rhs.stats.code,
                         .comments => lhs.stats.comments < rhs.stats.comments,
                         .blanks => lhs.stats.blanks < rhs.stats.blanks,
@@ -238,7 +238,7 @@ fn printDependency(
                 const stats = entry.stats;
                 if (config.print_files) {
                     try grid.print("{s}", .{file_name});
-                    try grid.print("{d}", .{stats.lines});
+                    try grid.print("{d}", .{stats.lines()});
                     try grid.print("{d}", .{stats.code});
                     try grid.print("{d}", .{stats.comments});
                     try grid.print("{d}", .{stats.blanks});
@@ -259,7 +259,7 @@ fn printDependency(
                     const stats = entry.stats;
                     const name = entry.language;
                     try grid.print("{s}", .{@tagName(name)});
-                    try grid.print("{d}", .{stats.lines});
+                    try grid.print("{d}", .{stats.lines()});
                     try grid.print("{d}", .{stats.code});
                     try grid.print("{d}", .{stats.comments});
                     try grid.print("{d}", .{stats.blanks});
@@ -274,4 +274,11 @@ fn printDependency(
     }
 
     return project_stats;
+}
+
+test {
+    _ = @import("loc.zig");
+    _ = @import("languages.zig");
+    _ = @import("GridPrinter.zig");
+    _ = @import("indented_writer.zig");
 }
